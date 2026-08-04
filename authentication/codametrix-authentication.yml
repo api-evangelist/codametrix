@@ -1,0 +1,46 @@
+generated: '2026-08-04'
+method: searched
+source: https://status.codametrix.com/api/ + live unauthenticated GETs of every /api/v2/ endpoint
+docs: https://status.codametrix.com/api/
+summary:
+  types: [none]
+  api_key_in: []
+  oauth2_flows: []
+  public_unauthenticated: true
+statement: >-
+  The CodaMetrix Status API requires no authentication of any kind. Every endpoint under
+  https://status.codametrix.com/api/v2/ was fetched with no credentials, no API key and no Authorization
+  header and returned HTTP 200 with application/json. The documented cURL examples on CodaMetrix's own API
+  reference page carry no credential either. CORS is fully open (access-control-allow-origin: *), so the API
+  is callable directly from a browser or an agent with no key-provisioning step.
+schemes: []
+surfaces:
+- name: CodaMetrix Status API
+  base_url: https://status.codametrix.com/api/v2/
+  auth: none
+  source: openapi/codametrix-status-openapi.yml
+  evidence: 8 of 8 endpoints returned 200 unauthenticated on 2026-08-04
+- name: CMX CARE platform
+  auth: not public
+  note: >-
+    The CMX CARE autonomous coding platform is delivered through direct EHR integration (Epic Toolbox,
+    Cerner, Meditech, GE) under contract with each health system. There is no public developer portal, no
+    published developer API, no sign-up flow and therefore no public authentication model to document. This
+    is recorded as an honest absence, not a gap in the harvest.
+- name: Vanta Trust Center
+  url: https://trust.codametrix.com/
+  auth: signed-request
+  note: >-
+    The trust center's underlying GraphQL endpoint (POST https://trust.codametrix.com/graphql) rejects
+    anonymous calls with HTTP 400 "Missing `signature` or `signedAt`" — a Vanta-platform signed-request
+    scheme, not a CodaMetrix credential surface.
+not_found:
+- {path: /.well-known/openid-configuration, host: www.codametrix.com, status: 404}
+- {path: /.well-known/oauth-authorization-server, host: www.codametrix.com, status: 404}
+- {path: /.well-known/oauth-protected-resource, host: www.codametrix.com, status: 404}
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+  - {url: 'https://status.codametrix.com/api/v2/summary.json', http_status: 200, auth_sent: none}
+  - {url: 'https://status.codametrix.com/api/v2/components.json', http_status: 200, auth_sent: none}
+  - {url: 'https://status.codametrix.com/api/', http_status: 200, note: documented cURL examples send no credential}

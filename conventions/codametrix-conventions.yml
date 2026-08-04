@@ -1,0 +1,91 @@
+generated: '2026-08-04'
+method: searched
+source: https://status.codametrix.com/api/ + observed response headers and bodies
+api: CodaMetrix Status API
+openapi: openapi/codametrix-status-openapi.yml
+summary: >-
+  Cross-cutting request/response semantics for the only publicly callable API CodaMetrix operates. The
+  surface is read-only: eight unauthenticated HTTP GET endpoints, all returning application/json, all
+  scoped to a single Statuspage page (id 93g3jjmkfprd). Because there are no write operations there is no
+  idempotency-key contract, no request body, and no conditional-write semantics to document.
+authentication:
+  style: none
+  detail: No credential of any kind; see authentication/codametrix-authentication.yml
+  cors: 'access-control-allow-origin: *'
+idempotency:
+  supported: false
+  key_header: null
+  note: >-
+    Read-only API. Every operation is an HTTP GET and therefore safe and idempotent by HTTP semantics, but
+    CodaMetrix publishes no idempotency-key contract because there is nothing to write. No Idempotency
+    pointer is claimed for this provider.
+pagination:
+  style: none
+  detail: >-
+    No pagination parameters exist. The incidents and scheduled-maintenances collections are hard-capped at
+    the 50 most recent records, as stated in CodaMetrix's own API reference. Older history is only reachable
+    through the HTML history pages and the Atom/RSS feeds.
+filtering:
+  style: path-variant
+  detail: >-
+    Filtering is expressed as distinct endpoints rather than query parameters — incidents/unresolved.json,
+    scheduled-maintenances/upcoming.json and scheduled-maintenances/active.json are the filtered views of
+    their parent collections.
+field_expansion:
+  supported: false
+  note: summary.json is the pre-composed expansion — it embeds status, components, unresolved incidents and active/upcoming maintenances in one response.
+content_negotiation:
+  request: none
+  response_media_types: [application/json]
+  charset: utf-8
+  vary: Accept, Accept-Encoding
+  detail: The .json suffix is part of the path, not negotiated. Incident history is separately available as application/atom+xml and application/rss+xml at the host root.
+envelope:
+  shape: >-
+    Every JSON response is an object whose first key is `page` (the page identity block: id, name, url,
+    time_zone, updated_at), followed by exactly one resource key — status, components, incidents or
+    scheduled_maintenances. summary.json carries all of them.
+  page_scoped: true
+error_handling:
+  format: none
+  detail: >-
+    No RFC 9457 problem+json and no JSON error envelope. A path that is not a Page API v2 endpoint returns
+    HTTP 404 with an empty body and no content-type header (observed 2026-08-04 on
+    /api/v2/nonexistent.json). See errors/codametrix-problem-types.yml.
+caching:
+  cache_control: max-age=10, public, s-maxage=10, stale-while-revalidate=20, stale-if-error=3600
+  etag: 'weak (W/"...") with access-control-expose-headers: ETag'
+  conditional_requests: supported via If-None-Match
+  cdn: Amazon CloudFront in front of AtlassianEdge
+  guidance: >-
+    Poll no faster than the 10-second edge cache. Use the ETag with If-None-Match rather than re-reading the
+    body; stale-if-error is 3600s, so a cached status remains available for an hour if the origin errs.
+rate_limiting:
+  documented: false
+  headers_observed: []
+  note: >-
+    No rate-limit headers were returned and CodaMetrix publishes no rate-limit policy for this endpoint.
+    Treat the 10-second cache-control as the practical polling floor.
+tracing:
+  request_id_headers: [atl-traceid, atl-request-id]
+  note: Vendor (Atlassian Statuspage) trace ids, useful when reporting a problem with the status host itself.
+versioning:
+  scheme: uri-path
+  current: v2
+  detail: The version is the /api/v2/ path segment. No version negotiation header, no date-based pinning.
+security_headers:
+  hsts: max-age=259200
+  x_content_type_options: nosniff
+  x_frame_related: [x-download-options noopen, x-permitted-cross-domain-policies none]
+  referrer_policy: strict-origin-when-cross-origin
+cross_links:
+  errors: errors/codametrix-problem-types.yml
+  authentication: authentication/codametrix-authentication.yml
+  lifecycle: lifecycle/codametrix-lifecycle.yml
+  data_model: data-model/codametrix-data-model.yml
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+  - {url: 'https://status.codametrix.com/api/v2/summary.json', http_status: 200, note: response headers read for caching/tracing/security}
+  - {url: 'https://status.codametrix.com/api/v2/nonexistent.json', http_status: 404, note: empty body, no content-type}
+  - {url: 'https://status.codametrix.com/api/', http_status: 200, note: 50-record cap and endpoint semantics stated here}

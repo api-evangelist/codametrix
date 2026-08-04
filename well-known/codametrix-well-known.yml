@@ -1,6 +1,7 @@
-generated: '2026-08-02'
+generated: '2026-08-04'
 method: probed
 source: live GET of /.well-known/* on every CodaMetrix host
+reprobed: '2026-08-04'
 note: >-
   CodaMetrix's own apex/www host publishes no /.well-known/ discovery surface. The single 200 found on a
   codametrix.com host is the security.txt served by Atlassian Statuspage on status.codametrix.com — its
@@ -45,11 +46,37 @@ hosts:
     canonical: https://www.atlassian.com/.well-known/security.txt
     pgp_signed: true
     expires: '2027-02-04T00:00:00.000Z'
+  - path: /.well-known/agent-card.json
+    status: 404
+    reprobed: '2026-08-04'
+  - path: /.well-known/agent.json
+    status: 404
+    reprobed: '2026-08-04'
+  - path: /openapi.json
+    status: 404
+    reprobed: '2026-08-04'
+  - path: /llms.txt
+    status: 404
+    reprobed: '2026-08-04'
+  - path: /api/
+    status: 200
+    reprobed: '2026-08-04'
+    note: >-
+      The real machine-readable surface on this host. HTML endpoint reference for the Statuspage Page API v2,
+      documenting all eight JSON endpoints. Captured as openapi/codametrix-status-openapi.yml.
 - host: https://trust.codametrix.com
   platform: Vanta Trust Center
   documents:
   - path: /.well-known/agent-card.json
     status: 404
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    accepted: false
+    rejection_reason: >-
+      SPA catch-all false positive. The Vanta trust center answers HTTP 200 with its HTML application shell
+      for every /.well-known/* path; the body is not a JSON object and carries no AgentCard shape. Rejected
+      per the A2A probe rule — no agent card is claimed for CodaMetrix on any host.
 subdomains_probed:
 - {host: docs.codametrix.com, resolves: false}
 - {host: api.codametrix.com, resolves: false}
@@ -60,5 +87,11 @@ subdomains_probed:
 - {host: status.codametrix.com, resolves: true, status: 200}
 - {host: trust.codametrix.com, resolves: true, status: 200}
 x-evidence:
-  fetched: '2026-08-02'
+  fetched: '2026-08-04'
+  first_fetched: '2026-08-02'
   method: curl HEAD/GET with redirects followed, 15-20s timeout
+  a2a_result: >-
+    No A2A agent card exists on any CodaMetrix host. /.well-known/agent-card.json and
+    /.well-known/agent.json were probed on www.codametrix.com, codametrix.com, status.codametrix.com and
+    trust.codametrix.com — all 404 except the trust host's HTML SPA catch-all, which was rejected. Nothing
+    is written to a2a/.

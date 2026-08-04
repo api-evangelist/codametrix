@@ -19,7 +19,7 @@ x-tier: profiled
 x-tier-reason: enrichment
 specificationVersion: '0.21'
 created: '2026-08-02'
-modified: '2026-08-02'
+modified: '2026-08-04'
 tags:
 - Company
 - healthcare
@@ -49,22 +49,42 @@ apis:
   - incidents
   - operational-transparency
   properties:
+  - type: OpenAPI
+    url: openapi/codametrix-status-openapi.yml
   - type: Documentation
+    url: https://status.codametrix.com/api/
+  - type: APIReference
     url: https://status.codametrix.com/api/
   - type: StatusPage
     url: https://status.codametrix.com
+  - type: StatusHistory
+    url: https://status.codametrix.com/history.atom
   - type: Examples
     url: examples/codametrix-status-api-examples.yml
   - type: Authentication
     url: authentication/codametrix-authentication.yml
   - type: Conventions
     url: conventions/codametrix-conventions.yml
+  - type: ErrorCatalog
+    url: errors/codametrix-problem-types.yml
+  - type: DataModel
+    url: data-model/codametrix-data-model.yml
+  - type: OpenAPIOverlay
+    url: overlays/codametrix-status-overlay.yaml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: AgenticAccess
+    url: agentic-access/codametrix-agentic-access.yml
+  - type: Lifecycle
+    url: lifecycle/codametrix-lifecycle.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/codametrix-agentic-access.yml
 - type: DomainSecurity
   url: security/codametrix-domain-security.yml
 - type: Website
@@ -103,3 +123,26 @@ common:
   url: well-known/codametrix-well-known.yml
 - type: LLMsTxt
   url: llms/codametrix-llms.txt
+- type: OpenAPI
+  url: openapi/codametrix-status-openapi.yml
+- type: Documentation
+  url: https://status.codametrix.com/api/
+- type: ErrorCatalog
+  url: errors/codametrix-problem-types.yml
+- type: DataModel
+  url: data-model/codametrix-data-model.yml
+- type: OpenAPIOverlay
+  url: overlays/codametrix-status-overlay.yaml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: StatusHistory
+  url: https://status.codametrix.com/history.atom
+- type: About
+  url: https://www.codametrix.com/about
+- type: Facebook
+  url: https://www.facebook.com/CMXCodaMetrix/
+x-enrichment:
+  date: '2026-08-04'
+  status: enriched
+  artifacts_added: 16
+  pass: local-v1

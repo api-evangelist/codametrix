@@ -1,0 +1,77 @@
+generated: '2026-08-04'
+method: searched
+source: https://status.codametrix.com/ + https://status.codametrix.com/api/ + observed API responses
+summary: >-
+  CodaMetrix publishes an operating-status surface but no API lifecycle policy. The Status API is a
+  vendor-versioned Atlassian Statuspage Page API v2 instance; CodaMetrix has published no versioning policy,
+  no deprecation policy, no Sunset/Deprecation header support and no public SLA of its own. What it does
+  operate — and operate actively — is a status page with a three-year incident history, a real maintenance
+  cadence and email/SMS/Slack subscription channels.
+versioning:
+  scheme: uri-path
+  current: v2
+  docs: https://status.codametrix.com/api/
+  owner: Atlassian Statuspage (platform-versioned, not CodaMetrix-versioned)
+  policy_published: false
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: No Deprecation or Sunset response header was observed on any endpoint, and no deprecation policy page exists on any codametrix.com host.
+deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+  published: false
+  note: >-
+    No public SLA or uptime commitment is published. Uptime commitments for CMX CARE are contracted per
+    health system and are not on the public surface.
+status_page:
+  url: https://status.codametrix.com
+  platform: Atlassian Statuspage
+  page_id: 93g3jjmkfprd
+  api: https://status.codametrix.com/api/v2/
+  components:
+  - {name: CMX Automate, group: CMX-Automate, id: pg7c1ssg6zpr}
+  - {name: Analytics Dashboards, group: CMX-Automate, id: c7ddhzc8g0yn}
+  - {name: CMX-Amplify, group: CMX-Amplify, id: h58vrf2tn36g}
+  current_status: {indicator: none, description: All Systems Operational, observed: '2026-08-04'}
+incident_history:
+  window: 50 most recent records per collection
+  incidents_observed: 15
+  incidents_range: 2023-03-06 .. 2026-06-29
+  impacts_used: [none, minor, major, critical]
+  maintenances_observed: 50
+  maintenances_range: 2025-07-15 .. 2026-07-17
+  note: >-
+    All 50 maintenance records in the window are in the completed state — a routine, regularly exercised
+    maintenance cadence rather than a dormant page. Incident impact levels none/minor/major/critical are all
+    in real use, so the page is not merely decorative.
+notification_channels:
+  subscribe_ui: https://status.codametrix.com
+  email: true
+  sms: true
+  slack: true
+  webhook: false
+  note: >-
+    The subscribe dialog on the CodaMetrix page renders email, SMS and Slack subscriber forms only. The
+    Statuspage webhook subscriber form is NOT enabled on this page (no subscribe-form-webhook element in the
+    rendered DOM), so CodaMetrix advertises no webhook event surface. No Webhooks pointer is claimed.
+feeds:
+- {format: atom, url: 'https://status.codametrix.com/history.atom', content_type: application/atom+xml, http_status: 200}
+- {format: rss, url: 'https://status.codametrix.com/history.rss', content_type: application/rss+xml, http_status: 200}
+- {format: json, url: 'https://status.codametrix.com/history.json', http_status: 200}
+support:
+  incident_contact: support@codametrix.com
+  source: quoted in the 2026-07-17 maintenance notice in the incident history feed
+  general: hello@codametrix.com
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+  - {url: 'https://status.codametrix.com/', http_status: 200, note: subscribe dialog channels read from rendered DOM}
+  - {url: 'https://status.codametrix.com/history.atom', http_status: 200}
+  - {url: 'https://status.codametrix.com/history.rss', http_status: 200}
+  - {url: 'https://status.codametrix.com/history.json', http_status: 200}
+  - {url: 'https://status.codametrix.com/subscribe', http_status: 404}
+  - {url: 'https://status.codametrix.com/api/v2/subscribers.json', http_status: 404}

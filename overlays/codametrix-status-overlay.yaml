@@ -1,0 +1,49 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the CodaMetrix Status API
+  version: 1.0.0
+extends: openapi/codametrix-status-openapi.yml
+x-provenance:
+  generated: '2026-08-04'
+  method: generated
+  source: API Evangelist enrichment pipeline
+  note: >-
+    Captures the API Evangelist annotations layered onto the CodaMetrix Status API description. The base
+    document itself was written by this pipeline from CodaMetrix's own API reference page and live probed
+    responses — CodaMetrix publishes no OpenAPI — so this overlay records the catalog-side metadata rather
+    than edits to a provider-authored spec.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: codametrix
+    x-apievangelist-profile: https://apis.io/provider/codametrix/
+    x-apievangelist-artifact-source: https://raw.githubusercontent.com/api-evangelist/codametrix/refs/heads/main/apis.yml
+    x-provider-published-spec: false
+- target: $.info
+  update:
+    x-agent-guidance: >-
+      Read-only, unauthenticated, single-page status API. Poll no faster than the 10-second edge cache and
+      prefer If-None-Match with the returned weak ETag. Prefer getSummary over four separate calls. An empty
+      incidents or scheduled_maintenances array is the healthy state, not an error.
+- target: $.paths['/summary.json'].get
+  update:
+    x-recommended: true
+    x-poll-interval-seconds: 60
+    x-replaces: [getStatus, getComponents, getUnresolvedIncidents, getActiveScheduledMaintenances, getUpcomingScheduledMaintenances]
+- target: $.paths['/incidents.json'].get
+  update:
+    x-result-cap: 50
+    x-pagination: none
+    x-older-history: https://status.codametrix.com/history.atom
+- target: $.paths['/scheduled-maintenances.json'].get
+  update:
+    x-result-cap: 50
+    x-pagination: none
+- target: $.components.schemas.Component
+  update:
+    x-apievangelist-note: >-
+      Group headers (group: true) and leaf components share one schema. Filter on `group` before treating a
+      record as a monitored surface.
+- target: $.components.schemas.IncidentUpdate
+  update:
+    x-apievangelist-note: incident_id is the parent id for scheduled maintenances too; there is no maintenance_id field.

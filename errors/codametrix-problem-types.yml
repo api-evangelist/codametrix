@@ -1,0 +1,47 @@
+generated: '2026-08-04'
+method: derived
+source: openapi/codametrix-status-openapi.yml + live probe of https://status.codametrix.com/api/v2/nonexistent.json
+format: none
+format_note: >-
+  The CodaMetrix Status API publishes no error format. It does not return RFC 9457 application/problem+json,
+  and it does not return a JSON error envelope. A non-endpoint path returns a bare HTTP 404 with an empty
+  body and no content-type header. Consumers must branch on the HTTP status code alone. This is recorded as
+  an observed absence, not an inferred one.
+envelope: null
+problems:
+- status: 404
+  title: Not a Page API v2 endpoint
+  body: empty
+  content_type: null
+  detail: >-
+    Returned for any path under /api/v2/ that is not one of the eight documented endpoints. Observed live on
+    2026-08-04 against /api/v2/nonexistent.json — HTTP 404, zero-length body, no content-type.
+  remediation: Check the path against openapi/codametrix-status-openapi.yml; the eight valid paths are fixed and take no parameters.
+  source_operation: null
+  evidence: probed
+- status: 200
+  title: Empty collection is not an error
+  detail: >-
+    incidents/unresolved.json, scheduled-maintenances/upcoming.json and scheduled-maintenances/active.json
+    return HTTP 200 with an empty array when nothing matches — the healthy state. Agents must not treat an
+    empty array as a failure.
+  remediation: Read the array length, not the status code, to determine whether anything is active.
+  source_operation: openapi/codametrix-status-openapi.yml#getUnresolvedIncidents
+  evidence: probed
+operational_signals:
+  note: >-
+    The API's real signal vocabulary is not error codes but status enums, and agents should treat these as
+    the semantic layer this API returns in place of errors.
+  status_indicator: [none, minor, major, critical]
+  component_status: [operational, degraded_performance, partial_outage, major_outage, under_maintenance]
+  incident_status: [investigating, identified, monitoring, resolved, postmortem]
+  incident_impact: [none, minor, major, critical]
+  maintenance_status: [scheduled, in_progress, verifying, completed]
+gaps:
+- No error reference page is published for this API.
+- No machine-readable error type URIs; nothing to key remediation off beyond the HTTP status.
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+  - {url: 'https://status.codametrix.com/api/v2/nonexistent.json', http_status: 404, content_type: null, body_bytes: 0}
+  - {url: 'https://status.codametrix.com/api/v2/incidents/unresolved.json', http_status: 200, note: empty incidents array}

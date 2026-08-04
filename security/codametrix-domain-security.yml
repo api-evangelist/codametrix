@@ -1,6 +1,10 @@
-generated: '2026-08-02'
+generated: '2026-08-04'
 method: probed
-source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI servers hosts
+note: >-
+  HSTS values were read directly from the strict-transport-security response header on each host
+  (curl -D -). The mechanical probe returned null for HSTS on this run; the header is present on all three
+  hosts and the observed values are recorded here.
 hosts:
 - host: www.codametrix.com
   https: true
@@ -8,12 +12,23 @@ hosts:
   cert_expires: Sep 10 15:01:35 2026 GMT
   hsts: true
   hsts_max_age: 31536000
+  hsts_include_subdomains: false
+  platform: Webflow behind Cloudflare
 - host: status.codametrix.com
   https: true
   tls_version: TLSv1.3
   cert_expires: Sep 17 05:22:09 2026 GMT
   hsts: true
   hsts_max_age: 259200
+  hsts_include_subdomains: false
+  platform: Atlassian Statuspage behind CloudFront (AtlassianEdge)
+  api_host: true
+- host: trust.codametrix.com
+  https: true
+  hsts: true
+  hsts_max_age: 31536000
+  hsts_include_subdomains: true
+  platform: Vanta Trust Center
 domains:
 - domain: codametrix.com
   dnssec: false
@@ -21,3 +36,22 @@ domains:
   spf: true
   dmarc: true
   dmarc_policy: reject
+api_response_security_headers:
+  host: status.codametrix.com
+  x_content_type_options: nosniff
+  x_xss_protection: 1; mode=block
+  x_download_options: noopen
+  x_permitted_cross_domain_policies: none
+  referrer_policy: strict-origin-when-cross-origin
+  access_control_allow_origin: '*'
+  note: The wide-open CORS policy is intentional for a public status API and is not a finding.
+gaps:
+- No DNSSEC on codametrix.com.
+- No CAA records, so any public CA may issue for the domain.
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+  - {url: 'https://www.codametrix.com/', http_status: 200, header: 'strict-transport-security: max-age=31536000'}
+  - {url: 'https://status.codametrix.com/', http_status: 200, header: 'strict-transport-security: max-age=259200'}
+  - {url: 'https://trust.codametrix.com/', http_status: 200, header: 'strict-transport-security: max-age=31536000; includeSubDomains'}
+  - {url: 'https://status.codametrix.com/api/v2/summary.json', http_status: 200, note: API response security headers read here}

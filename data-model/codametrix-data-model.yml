@@ -1,0 +1,70 @@
+generated: '2026-08-04'
+method: derived
+source: openapi/codametrix-status-openapi.yml + observed payloads in examples/
+summary: >-
+  Entity graph of the CodaMetrix Status API, derived from the $ref links in the generated OpenAPI and the
+  id-reference fields actually present in the live payloads. Every response is rooted at a single Page; all
+  other entities carry page_id back to it. Ids are 12-character lowercase alphanumeric strings with no type
+  prefix, so an id alone does not identify its entity type — the containing key does.
+id_format:
+  pattern: 12-character lowercase alphanumeric
+  prefixed: false
+  examples: [93g3jjmkfprd (page), pg7c1ssg6zpr (component), ypr5f65wbzrw (incident), 1sbhl8nzwp3p (incident update)]
+entities:
+- name: Page
+  schema: '#/components/schemas/Page'
+  description: The CodaMetrix status page itself; the root of every response.
+  key: id
+  instance: 93g3jjmkfprd
+  fields: [id, name, url, time_zone, updated_at]
+- name: Status
+  schema: '#/components/schemas/Status'
+  description: Blended rollup of component health. Value object, not independently addressable.
+  fields: [indicator, description]
+- name: Component
+  schema: '#/components/schemas/Component'
+  description: One monitored surface of the CMX CARE platform, or a group header when group is true.
+  key: id
+  fields: [id, name, status, position, description, showcase, start_date, group_id, page_id, group, only_show_if_degraded, components]
+  instances: [CMX Automate, Analytics Dashboards, CMX-Amplify]
+  groups: [CMX-Automate, CMX-Amplify]
+- name: Incident
+  schema: '#/components/schemas/Incident'
+  description: An unplanned event with a status timeline and an impact level.
+  key: id
+  fields: [id, name, status, impact, created_at, updated_at, monitoring_at, resolved_at, started_at, shortlink, page_id, incident_updates, components, reminder_intervals]
+- name: ScheduledMaintenance
+  schema: '#/components/schemas/ScheduledMaintenance'
+  description: A planned window; structurally an Incident plus scheduled_for/scheduled_until.
+  key: id
+  fields: [id, name, status, impact, created_at, updated_at, monitoring_at, resolved_at, started_at, shortlink, page_id, incident_updates, components, scheduled_for, scheduled_until]
+- name: IncidentUpdate
+  schema: '#/components/schemas/IncidentUpdate'
+  description: One dated post on an Incident or ScheduledMaintenance timeline. Shared by both parents.
+  key: id
+  fields: [id, status, body, incident_id, created_at, updated_at, display_at, affected_components, deliver_notifications, custom_tweet, tweet_id]
+- name: AffectedComponent
+  schema: '#/components/schemas/AffectedComponent'
+  description: Component status transition recorded on an update. Value object keyed by component id in `code`.
+  fields: [code, name, old_status, new_status]
+relationships:
+- {from: Page, to: Component, kind: has_many, via: page_id}
+- {from: Page, to: Incident, kind: has_many, via: page_id}
+- {from: Page, to: ScheduledMaintenance, kind: has_many, via: page_id}
+- {from: Page, to: Status, kind: has_one, via: embedded}
+- {from: Component, to: Component, kind: belongs_to, via: group_id, note: child component points at its group header}
+- {from: Component, to: Component, kind: has_many, via: components, note: group header lists its child component ids}
+- {from: Incident, to: IncidentUpdate, kind: has_many, via: incident_updates}
+- {from: Incident, to: Component, kind: has_many, via: components, note: embedded full component records, not ids}
+- {from: ScheduledMaintenance, to: IncidentUpdate, kind: has_many, via: incident_updates}
+- {from: ScheduledMaintenance, to: Component, kind: has_many, via: components}
+- {from: IncidentUpdate, to: Incident, kind: belongs_to, via: incident_id, note: also carries maintenance ids — the field name is shared}
+- {from: IncidentUpdate, to: AffectedComponent, kind: has_many, via: affected_components}
+- {from: AffectedComponent, to: Component, kind: belongs_to, via: code}
+denormalization_notes:
+- Incident.components and ScheduledMaintenance.components embed whole Component records rather than ids, so component status inside an incident is a point-in-time copy.
+- AffectedComponent.name is group-qualified ("CMX-Automate - CMX Automate") while Component.name is not; joining on name will fail, join on code/id.
+- IncidentUpdate.incident_id is used for maintenance parents too; there is no separate maintenance_id field.
+x-evidence:
+  fetched: '2026-08-04'
+  derived_from: examples/codametrix-status-summary.json, examples/codametrix-status-incidents.json, examples/codametrix-status-scheduled-maintenances.json

@@ -1,0 +1,18 @@
+generated: '2026-08-04'
+method: generated
+source: openapi/codametrix-status-openapi.yml
+note: >-
+  Two packaged agent skills covering the whole of CodaMetrix's public API surface. Every step is grounded in
+  an operationId that exists verbatim in openapi/codametrix-status-openapi.yml. CodaMetrix publishes no
+  AGENTS.md or skill files of its own; these are API Evangelist artifacts.
+skills:
+- file: codametrix-check-platform-status.md
+  name: Check CodaMetrix platform status
+  description: Current health of the CMX CARE platform, affected components, and any open incident or active maintenance — one unauthenticated call.
+  api: openapi/codametrix-status-openapi.yml
+  operations: [getSummary, getStatus, getComponents]
+- file: codametrix-review-incident-history.md
+  name: Review CodaMetrix incident and maintenance history
+  description: Reliability posture, maintenance cadence and incident-communication quality from the published 50-record history window.
+  api: openapi/codametrix-status-openapi.yml
+  operations: [getIncidents, getScheduledMaintenances, getUpcomingScheduledMaintenances, getActiveScheduledMaintenances]

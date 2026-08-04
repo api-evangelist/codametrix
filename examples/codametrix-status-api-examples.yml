@@ -1,0 +1,61 @@
+generated: '2026-08-04'
+method: probed
+source: live GET of every https://status.codametrix.com/api/v2/ endpoint
+api: CodaMetrix Status API
+openapi: openapi/codametrix-status-openapi.yml
+summary: >-
+  Verbatim response bodies captured from every endpoint of the CodaMetrix Status API. Each file is the
+  unmodified JSON body returned by an unauthenticated GET; no values were edited, redacted or invented.
+  These are the payloads the generated OpenAPI's schemas were written from.
+examples:
+- file: codametrix-status-summary.json
+  operation: getSummary
+  url: https://status.codametrix.com/api/v2/summary.json
+  http_status: 200
+  fetched: '2026-08-02'
+  description: Full page rollup — page identity, five component records, unresolved incidents, active/upcoming maintenances, and the blended status indicator.
+- file: codametrix-status-status.json
+  operation: getStatus
+  url: https://status.codametrix.com/api/v2/status.json
+  http_status: 200
+  fetched: '2026-08-02'
+  description: 'Status rollup only. Observed: indicator "none", description "All Systems Operational".'
+- file: codametrix-status-components.json
+  operation: getComponents
+  url: https://status.codametrix.com/api/v2/components.json
+  http_status: 200
+  fetched: '2026-08-02'
+  description: The component tree — CMX Automate, CMX-Amplify and Analytics Dashboards, under the CMX-Automate and CMX-Amplify group records.
+- file: codametrix-status-incidents.json
+  operation: getIncidents
+  url: https://status.codametrix.com/api/v2/incidents.json
+  http_status: 200
+  fetched: '2026-08-02'
+  description: The 50 most recent incidents with their full incident_updates timelines and affected_components transitions.
+- file: codametrix-status-incidents-unresolved.json
+  operation: getUnresolvedIncidents
+  url: https://status.codametrix.com/api/v2/incidents/unresolved.json
+  http_status: 200
+  fetched: '2026-08-02'
+  description: Empty incidents array — the healthy-state response shape.
+- file: codametrix-status-scheduled-maintenances.json
+  operation: getScheduledMaintenances
+  url: https://status.codametrix.com/api/v2/scheduled-maintenances.json
+  http_status: 200
+  fetched: '2026-08-02'
+  description: The 50 most recent maintenance windows, including completed ones, with scheduled_for/scheduled_until.
+- file: codametrix-status-scheduled-maintenances-upcoming.json
+  operation: getUpcomingScheduledMaintenances
+  url: https://status.codametrix.com/api/v2/scheduled-maintenances/upcoming.json
+  http_status: 200
+  fetched: '2026-08-04'
+  description: Empty scheduled_maintenances array — no maintenance currently in the scheduled state.
+- file: codametrix-status-scheduled-maintenances-active.json
+  operation: getActiveScheduledMaintenances
+  url: https://status.codametrix.com/api/v2/scheduled-maintenances/active.json
+  http_status: 200
+  fetched: '2026-08-04'
+  description: Empty scheduled_maintenances array — no maintenance currently in progress or verifying.
+x-evidence:
+  fetched: '2026-08-04'
+  note: All eight endpoints returned HTTP 200 application/json with no credentials on both fetch dates.
