@@ -1,23 +1,105 @@
 aid: codametrix
 name: CodaMetrix
-description: 'CodaMetrix is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  CodaMetrix is a Boston-based healthcare AI company that builds CMX CARE, an autonomous medical coding
+  platform that translates clinical documentation into billing and diagnostic codes without human touch.
+  Spun out of Mass General Brigham's physician billing organization in 2019, the platform combines machine
+  learning, deep learning and natural language processing to produce a patient-centric, longitudinal view
+  of the record and code across radiology, pathology, evaluation and management, endoscopy, emergency
+  medicine and surgery. It is delivered as an AWS-hosted SaaS that integrates directly into the EHR
+  (Epic Toolbox member, plus Cerner, Meditech and GE) rather than as a public developer API; the only
+  publicly callable surface CodaMetrix operates is the unauthenticated Atlassian Statuspage Page API on
+  status.codametrix.com. The company has raised $95M across Series A and Series B and was ranked No. 1 in
+  the inaugural Best in KLAS category for autonomous medical coding.
+image: https://cdn.prod.website-files.com/684cc6638b0f0abf60033894/6858a1d6db0f8dcba0f11337_CodaMetrix-CodeForBetter.png
 url: https://raw.githubusercontent.com/api-evangelist/codametrix/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
-specificationVersion: '0.20'
+x-tier: profiled
+x-tier-reason: enrichment
+specificationVersion: '0.21'
 created: '2026-08-02'
 modified: '2026-08-02'
 tags:
 - Company
-apis: []
+- healthcare
+- health-systems
+- medical-coding
+- autonomous-coding
+- revenue-cycle-management
+- clinical-documentation
+- healthcare-ai
+- machine-learning
+- natural-language-processing
+- ehr-integration
+- status
+apis:
+- name: CodaMetrix Status API
+  description: >-
+    Unauthenticated, publicly callable JSON status API served from CodaMetrix's own status host by
+    Atlassian Statuspage (Page API v2). Exposes overall page status, the CMX-Automate / CMX Automate /
+    CMX-Amplify / Analytics Dashboards component tree, incidents (all and unresolved) and scheduled
+    maintenances, plus Atom and RSS incident history feeds. This is the only public, machine-readable
+    API surface CodaMetrix operates; the CMX CARE platform itself is delivered through direct EHR
+    integration and has no published developer API.
+  humanURL: https://status.codametrix.com/api/
+  baseURL: https://status.codametrix.com/api/v2/
+  tags:
+  - status
+  - incidents
+  - operational-transparency
+  properties:
+  - type: Documentation
+    url: https://status.codametrix.com/api/
+  - type: StatusPage
+    url: https://status.codametrix.com
+  - type: Examples
+    url: examples/codametrix-status-api-examples.yml
+  - type: Authentication
+    url: authentication/codametrix-authentication.yml
+  - type: Conventions
+    url: conventions/codametrix-conventions.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/codametrix-domain-security.yml
 - type: Website
+  url: https://www.codametrix.com/
+- type: Blog
+  url: https://www.codametrix.com/resources
+- type: Support
+  url: mailto:hello@codametrix.com
+- type: PrivacyPolicy
+  url: https://cdn.prod.website-files.com/684cc6638b0f0abf60033894/69efd0a7e96fba6f9ddd6d69_CodaMetrix_Privacy%20Policy-04-27-26.pdf
+- type: StatusPage
+  url: https://status.codametrix.com
+- type: TrustCenter
+  url: https://trust.codametrix.com
+- type: Compliance
+  url: https://trust.codametrix.com
+- type: Careers
+  url: https://www.codametrix.com/careers
+- type: CaseStudies
+  url: https://www.codametrix.com/case-studies
+- type: LinkedIn
+  url: https://www.linkedin.com/company/codametrix/
+- type: SecondaryMarket
   url: https://forgeglobal.com/codametrix_stock/
+- type: Examples
+  url: examples/codametrix-status-api-examples.yml
+- type: Authentication
+  url: authentication/codametrix-authentication.yml
+- type: Conventions
+  url: conventions/codametrix-conventions.yml
+- type: Lifecycle
+  url: lifecycle/codametrix-lifecycle.yml
+- type: Conformance
+  url: conformance/codametrix-conformance.yml
+- type: WellKnown
+  url: well-known/codametrix-well-known.yml
+- type: LLMsTxt
+  url: llms/codametrix-llms.txt

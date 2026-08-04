@@ -1,0 +1,56 @@
+generated: '2026-08-02'
+method: searched
+probe: true
+url: https://trust.codametrix.com/
+platform: Vanta Trust Center
+summary: >-
+  CodaMetrix operates a Vanta-hosted Trust Center on its own subdomain. The page is a client-rendered
+  single-page app; its document/control data is served over a signed GraphQL request
+  (POST https://trust.codametrix.com/graphql returns 400 "Missing `signature` or `signedAt`" anonymously),
+  so the certification list could not be read directly from the trust center. Certifications below are
+  recorded from the sources named in each evidence entry, with confidence stated honestly.
+statement: >-
+  CodaMetrix delivers secure, AI-powered autonomous medical coding through its flagship CMX CARE platform,
+  grounded in trust and compliance. By prioritizing transparency and implementing rigorous data protection
+  protocols, CMX CARE ensures the utmost care in safeguarding our customer and patient data.
+certifications:
+- name: SOC 2
+  auditor: A-LIGN
+  confidence: high
+  evidence: >-
+    SOC 2 and A-LIGN compliance badges rendered in the footer of every www.codametrix.com page
+    (Coda-Compliance-SOC.png, A-Lign.png)
+- name: SOC 2 Type 2
+  confidence: medium
+  evidence: >-
+    Stated in the CodaMetrix CMX CARE Platform vendor listing on AVIA Marketplace
+    (https://marketplace.aviahealth.com/product/79390) — third-party listing, not read from
+    CodaMetrix's own trust center
+- name: ISO 27001
+  confidence: medium
+  evidence: >-
+    Stated in the CodaMetrix CMX CARE Platform vendor listing on AVIA Marketplace
+    (https://marketplace.aviahealth.com/product/79390) — third-party listing, not read from
+    CodaMetrix's own trust center
+- name: HIPAA
+  confidence: medium
+  evidence: >-
+    Stated in the CodaMetrix CMX CARE Platform vendor listing on AVIA Marketplace; consistent with the
+    company's business model (PHI-bearing clinical documentation processed for US health systems)
+infrastructure:
+- name: AWS
+  evidence: >-
+    AWS compliance badge in the www.codametrix.com footer (Coda-Compliance-AWS.png); CodaMetrix
+    announced joining the AWS Partner Network
+    (https://www.codametrix.com/resources/codametrix-joins-the-aws-partner-network)
+gaps:
+- No /.well-known/security.txt on codametrix.com
+- No published vulnerability disclosure or bug bounty program found
+- No terms of service page found on the public site (privacy policy is published as a PDF)
+- Trust center document/report list is gated behind a signed request; no anonymous machine-readable feed
+x-evidence:
+  fetched: '2026-08-02'
+  urls:
+  - {url: 'https://trust.codametrix.com/', http_status: 200, content_type: text/html}
+  - {url: 'https://trust.codametrix.com/graphql', http_status: 400, note: signed request required}
+  - {url: 'https://www.codametrix.com/our-solution', http_status: 200, note: footer compliance badges}

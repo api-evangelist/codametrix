@@ -1,0 +1,73 @@
+generated: '2026-08-02'
+method: searched
+source: https://www.codametrix.com/ (footer badges) + https://trust.codametrix.com/ + vendor listings
+scope: >-
+  CodaMetrix does not publish a developer API contract, so no spec-derived conformance can be asserted.
+  Standards below split into (a) published organizational compliance posture and (b) healthcare
+  interoperability standards the CMX CARE platform consumes through EHR integration rather than exposes.
+standards:
+- id: soc2
+  name: SOC 2 (A-LIGN)
+  conforms: true
+  evidence: SOC 2 and A-LIGN badges in the codametrix.com footer; Vanta Trust Center at trust.codametrix.com
+- id: iso-27001
+  name: ISO/IEC 27001
+  conforms: true
+  confidence: medium
+  evidence: Stated in the CMX CARE vendor listing on AVIA Marketplace (third-party listing)
+- id: hipaa
+  name: HIPAA
+  conforms: true
+  confidence: medium
+  evidence: >-
+    Stated in the CMX CARE vendor listing on AVIA Marketplace; CodaMetrix processes PHI-bearing clinical
+    documentation for US health systems as a business associate
+- id: hl7-v2
+  name: HL7 v2
+  conforms: true
+  confidence: medium
+  surface: inbound integration, not a published API
+  evidence: >-
+    CodaMetrix integration coverage described as HL7 and FHIR based EHR integration with Epic, Cerner,
+    Meditech and GE
+- id: fhir
+  name: HL7 FHIR
+  conforms: true
+  confidence: medium
+  surface: inbound integration, not a published API
+  evidence: Same as hl7-v2; no FHIR CapabilityStatement or public FHIR endpoint is published
+- id: icd-10
+  name: ICD-10-CM / ICD-10-PCS
+  conforms: true
+  surface: coding output vocabulary
+  evidence: Product produces ICD-10 diagnostic codes as its primary output
+- id: cpt
+  name: CPT / HCPCS
+  conforms: true
+  surface: coding output vocabulary
+  evidence: Product produces professional and facility fee CPT/HCPCS codes
+- id: oauth2
+  conforms: false
+  evidence: No public OAuth surface; no /.well-known/oauth-authorization-server (404)
+- id: oidc
+  conforms: false
+  evidence: No /.well-known/openid-configuration (404)
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI/Swagger document found on any codametrix.com host after probing /openapi.json,
+    /openapi.yaml, /swagger.json, /api-docs, /docs and /redoc on www, status and trust hosts
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: No public API returning application/problem+json
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: >-
+    No security.txt on codametrix.com; the only 200 is Atlassian's vendor-inherited file on
+    status.codametrix.com, canonical to atlassian.com
+- id: a2a
+  name: A2A Agent Card
+  conforms: false
+  evidence: /.well-known/agent-card.json and /.well-known/agent.json both 404 on every host
+x-evidence:
+  fetched: '2026-08-02'

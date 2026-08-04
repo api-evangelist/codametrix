@@ -1,0 +1,64 @@
+generated: '2026-08-02'
+method: probed
+source: live GET of /.well-known/* on every CodaMetrix host
+note: >-
+  CodaMetrix's own apex/www host publishes no /.well-known/ discovery surface. The single 200 found on a
+  codametrix.com host is the security.txt served by Atlassian Statuspage on status.codametrix.com — its
+  Canonical, Contact and Policy fields all point at atlassian.com, so it is a VENDOR-INHERITED document,
+  not a CodaMetrix vulnerability disclosure program. It is recorded here verbatim for provenance but is
+  deliberately NOT wired as a CodaMetrix SecurityTxt / Security / VulnerabilityDisclosure pointer.
+hosts:
+- host: https://www.codametrix.com
+  platform: Webflow (Cloudflare edge)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+  - path: /openapi.json
+    status: 404
+  - path: /robots.txt
+    status: 200
+    note: >-
+      Explicitly Allow-lists GPTBot, ClaudeBot, Claude-SearchBot, Claude-User, OAI-SearchBot,
+      ChatGPT-User, PerplexityBot, Perplexity-User and Google-Extended, plus Allow / for *.
+      An open, agent-friendly crawl posture with no differential treatment for AI agents.
+- host: https://status.codametrix.com
+  platform: Atlassian Statuspage
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: codametrix-status-security.txt
+    owner: Atlassian (Statuspage vendor)
+    canonical: https://www.atlassian.com/.well-known/security.txt
+    pgp_signed: true
+    expires: '2027-02-04T00:00:00.000Z'
+- host: https://trust.codametrix.com
+  platform: Vanta Trust Center
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+subdomains_probed:
+- {host: docs.codametrix.com, resolves: false}
+- {host: api.codametrix.com, resolves: false}
+- {host: developer.codametrix.com, resolves: false}
+- {host: developers.codametrix.com, resolves: false}
+- {host: app.codametrix.com, resolves: false}
+- {host: portal.codametrix.com, resolves: false}
+- {host: status.codametrix.com, resolves: true, status: 200}
+- {host: trust.codametrix.com, resolves: true, status: 200}
+x-evidence:
+  fetched: '2026-08-02'
+  method: curl HEAD/GET with redirects followed, 15-20s timeout
