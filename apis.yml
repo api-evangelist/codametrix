@@ -34,23 +34,16 @@ tags:
 - ehr-integration
 - status
 apis:
-- name: CodaMetrix Status API
-  description: >-
-    Unauthenticated, publicly callable JSON status API served from CodaMetrix's own status host by
-    Atlassian Statuspage (Page API v2). Exposes overall page status, the CMX-Automate / CMX Automate /
-    CMX-Amplify / Analytics Dashboards component tree, incidents (all and unresolved) and scheduled
-    maintenances, plus Atom and RSS incident history feeds. This is the only public, machine-readable
-    API surface CodaMetrix operates; the CMX CARE platform itself is delivered through direct EHR
-    integration and has no published developer API.
+- aid: codametrix:codametrix-components-api
+  name: CodaMetrix Components API
+  description: The component tree for the CodaMetrix platform.
   humanURL: https://status.codametrix.com/api/
   baseURL: https://status.codametrix.com/api/v2/
   tags:
-  - status
-  - incidents
-  - operational-transparency
+  - Components
   properties:
   - type: OpenAPI
-    url: openapi/codametrix-status-openapi.yml
+    url: openapi/codametrix-components-api-openapi.yml
   - type: Documentation
     url: https://status.codametrix.com/api/
   - type: APIReference
@@ -71,8 +64,143 @@ apis:
     url: data-model/codametrix-data-model.yml
   - type: OpenAPIOverlay
     url: overlays/codametrix-status-overlay.yaml
-  - type: AgentSkill
-    url: skills/_index.yml
+  - type: AgenticAccess
+    url: agentic-access/codametrix-agentic-access.yml
+  - type: Lifecycle
+    url: lifecycle/codametrix-lifecycle.yml
+- aid: codametrix:codametrix-incidents-api
+  name: CodaMetrix Incidents API
+  description: Unplanned incidents and their update timelines.
+  humanURL: https://status.codametrix.com/api/
+  baseURL: https://status.codametrix.com/api/v2/
+  tags:
+  - Incidents
+  properties:
+  - type: OpenAPI
+    url: openapi/codametrix-incidents-api-openapi.yml
+  - type: Documentation
+    url: https://status.codametrix.com/api/
+  - type: APIReference
+    url: https://status.codametrix.com/api/
+  - type: StatusPage
+    url: https://status.codametrix.com
+  - type: StatusHistory
+    url: https://status.codametrix.com/history.atom
+  - type: Examples
+    url: examples/codametrix-status-api-examples.yml
+  - type: Authentication
+    url: authentication/codametrix-authentication.yml
+  - type: Conventions
+    url: conventions/codametrix-conventions.yml
+  - type: ErrorCatalog
+    url: errors/codametrix-problem-types.yml
+  - type: DataModel
+    url: data-model/codametrix-data-model.yml
+  - type: OpenAPIOverlay
+    url: overlays/codametrix-status-overlay.yaml
+  - type: AgenticAccess
+    url: agentic-access/codametrix-agentic-access.yml
+  - type: Lifecycle
+    url: lifecycle/codametrix-lifecycle.yml
+- aid: codametrix:codametrix-scheduled-maintenances-api
+  name: CodaMetrix Scheduled Maintenances API
+  description: Planned maintenance windows and their update timelines.
+  humanURL: https://status.codametrix.com/api/
+  baseURL: https://status.codametrix.com/api/v2/
+  tags:
+  - Scheduled Maintenances
+  properties:
+  - type: OpenAPI
+    url: openapi/codametrix-scheduled-maintenances-api-openapi.yml
+  - type: Documentation
+    url: https://status.codametrix.com/api/
+  - type: APIReference
+    url: https://status.codametrix.com/api/
+  - type: StatusPage
+    url: https://status.codametrix.com
+  - type: StatusHistory
+    url: https://status.codametrix.com/history.atom
+  - type: Examples
+    url: examples/codametrix-status-api-examples.yml
+  - type: Authentication
+    url: authentication/codametrix-authentication.yml
+  - type: Conventions
+    url: conventions/codametrix-conventions.yml
+  - type: ErrorCatalog
+    url: errors/codametrix-problem-types.yml
+  - type: DataModel
+    url: data-model/codametrix-data-model.yml
+  - type: OpenAPIOverlay
+    url: overlays/codametrix-status-overlay.yaml
+  - type: AgenticAccess
+    url: agentic-access/codametrix-agentic-access.yml
+  - type: Lifecycle
+    url: lifecycle/codametrix-lifecycle.yml
+- aid: codametrix:codametrix-status-api
+  name: CodaMetrix Status API
+  description: Overall page status rollup.
+  humanURL: https://status.codametrix.com/api/
+  baseURL: https://status.codametrix.com/api/v2/
+  tags:
+  - Status
+  properties:
+  - type: OpenAPI
+    url: openapi/codametrix-status-api-openapi.yml
+  - type: Documentation
+    url: https://status.codametrix.com/api/
+  - type: APIReference
+    url: https://status.codametrix.com/api/
+  - type: StatusPage
+    url: https://status.codametrix.com
+  - type: StatusHistory
+    url: https://status.codametrix.com/history.atom
+  - type: Examples
+    url: examples/codametrix-status-api-examples.yml
+  - type: Authentication
+    url: authentication/codametrix-authentication.yml
+  - type: Conventions
+    url: conventions/codametrix-conventions.yml
+  - type: ErrorCatalog
+    url: errors/codametrix-problem-types.yml
+  - type: DataModel
+    url: data-model/codametrix-data-model.yml
+  - type: OpenAPIOverlay
+    url: overlays/codametrix-status-overlay.yaml
+  - type: AgenticAccess
+    url: agentic-access/codametrix-agentic-access.yml
+  - type: Lifecycle
+    url: lifecycle/codametrix-lifecycle.yml
+- aid: codametrix:codametrix-summary-api
+  name: CodaMetrix Summary API
+  description: >-
+    Combined rollup of status, components, unresolved incidents and active/upcoming maintenances.
+  humanURL: https://status.codametrix.com/api/
+  baseURL: https://status.codametrix.com/api/v2/
+  tags:
+  - Summary
+  properties:
+  - type: OpenAPI
+    url: openapi/codametrix-summary-api-openapi.yml
+  - type: Documentation
+    url: https://status.codametrix.com/api/
+  - type: APIReference
+    url: https://status.codametrix.com/api/
+  - type: StatusPage
+    url: https://status.codametrix.com
+  - type: StatusHistory
+    url: https://status.codametrix.com/history.atom
+  - type: Examples
+    url: examples/codametrix-status-api-examples.yml
+  - type: Authentication
+    url: authentication/codametrix-authentication.yml
+  - type: Conventions
+    url: conventions/codametrix-conventions.yml
+  - type: ErrorCatalog
+    url: errors/codametrix-problem-types.yml
+  - type: DataModel
+    url: data-model/codametrix-data-model.yml
+  - type: OpenAPIOverlay
+    url: overlays/codametrix-status-overlay.yaml
   - type: AgenticAccess
     url: agentic-access/codametrix-agentic-access.yml
   - type: Lifecycle
@@ -83,6 +211,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: MCPServer
+  url: mcp/codametrix-mcp.yml
 - type: AgenticAccess
   url: agentic-access/codametrix-agentic-access.yml
 - type: DomainSecurity
@@ -124,7 +254,7 @@ common:
 - type: LLMsTxt
   url: llms/codametrix-llms.txt
 - type: OpenAPI
-  url: openapi/codametrix-status-openapi.yml
+  url: openapi/_original/codametrix-status-openapi.yml
 - type: Documentation
   url: https://status.codametrix.com/api/
 - type: ErrorCatalog
