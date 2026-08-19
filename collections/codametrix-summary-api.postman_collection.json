@@ -1,0 +1,131 @@
+{
+  "item": [
+    {
+      "id": "f04ef6ee-32ca-4f68-ad4d-21aad4798251",
+      "name": "Summary",
+      "description": {
+        "content": "Combined rollup of status, components, unresolved incidents and active/upcoming maintenances.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6667e616-4666-40e7-a787-175b961cf932",
+          "name": "Get status page summary",
+          "request": {
+            "name": "Get status page summary",
+            "description": {
+              "content": "Get a summary of the status page, including a status indicator, component statuses, unresolved incidents, and any upcoming or in-progress scheduled maintenances. This is the single call most consumers need — it is the union of status.json, components.json, incidents/unresolved.json and the active/upcoming maintenance endpoints.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "summary.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "225b1c44-a921-4215-9257-20cc7945d90a",
+              "name": "The full page summary.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "summary.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": {\n    \"id\": \"93g3jjmkfprd\",\n    \"name\": \"CodaMetrix\",\n    \"url\": \"https://status.codametrix.com\",\n    \"time_zone\": \"America/New_York\",\n    \"updated_at\": \"2026-08-02T14:59:36.991-04:00\"\n  },\n  \"status\": {\n    \"indicator\": \"none\",\n    \"description\": \"All Systems Operational\"\n  },\n  \"incidents\": [],\n  \"scheduled_maintenances\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "999d9a22-7a46-4c73-bab6-1bf90c06aba3",
+              "name": "The requested path is not a Page API v2 endpoint. Observed live: an unknown path under /api/v2/ returns HTTP 404 with an empty body and no `content-type` — there is no JSON or RFC 9457 error envelope on this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "summary.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://status.codametrix.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "13379b31-a6c9-434c-a763-5771113e95a3",
+    "name": "CodaMetrix Status Summary API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Machine-readable operational status for the CodaMetrix CMX CARE platform, served from CodaMetrix's own status host (status.codametrix.com) by Atlassian Statuspage as a Page API v2 instance. Every endpoint is an unauthenticated HTTP GET returning `application/json` with permissive CORS (`access-control-allow-origin: *`) and a 10 second edge cache. The API exposes the page identity, an overall status rollup, the component tree (CMX-Automate group containing CMX Automate and Analytics Dashboards, and the CMX-Amplify group), incidents (all and unresolved) and scheduled maintenances (all, upcoming, active). Incident history is additionally published as Atom and RSS feeds at https://status.codametrix.com/history.atom and https://status.codametrix.com/history.rss.\n\nPROVENANCE — this description is NOT published by CodaMetrix. CodaMetrix publishes no OpenAPI. This document was written by the API Evangelist enrichment pipeline from two sources only: (1) the endpoint reference CodaMetrix serves at https://status.codametrix.com/api/, and (2) live responses fetched from each endpoint on 2026-08-04, every one of which returned HTTP 200. Schemas describe the fields actually observed in those responses. Nothing here is inferred beyond those two sources. See `x-evidence` below.\n\nContact Support:\n Name: CodaMetrix Support\n Email: support@codametrix.com",
+      "type": "text/plain"
+    }
+  }
+}

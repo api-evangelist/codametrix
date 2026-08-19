@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CodaMetrix Status API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the page status rollup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://status.codametrix.com/api/v2/status.json"
+          },
+          "docs": "Get the status rollup for the whole page. Includes an indicator — one of `none`, `minor`, `major` or `critical` — plus a human description of the blended component status, such as \"All Systems Operational\", \"Partial System Outage\" or \"Major Service Outage\"."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

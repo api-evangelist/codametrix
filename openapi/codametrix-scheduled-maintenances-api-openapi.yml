@@ -1,0 +1,369 @@
+openapi: 3.2.0
+info:
+  title: CodaMetrix Status Scheduled Maintenances API
+  version: '2.0'
+  summary: Public, unauthenticated JSON status API for the CodaMetrix platform.
+  description: 'Machine-readable operational status for the CodaMetrix CMX CARE platform, served from CodaMetrix''s own status host (status.codametrix.com) by Atlassian Statuspage as a Page API v2 instance. Every endpoint is an unauthenticated HTTP GET returning `application/json` with permissive CORS (`access-control-allow-origin: *`) and a 10 second edge cache. The API exposes the page identity, an overall status rollup, the component tree (CMX-Automate group containing CMX Automate and Analytics Dashboards, and the CMX-Amplify group), incidents (all and unresolved) and scheduled maintenances (all, upcoming, active). Incident history is additionally published as Atom and RSS feeds at https://status.codametrix.com/history.atom and https://status.codametrix.com/history.rss.
+
+
+    PROVENANCE — this description is NOT published by CodaMetrix. CodaMetrix publishes no OpenAPI. This document was written by the API Evangelist enrichment pipeline from two sources only: (1) the endpoint reference CodaMetrix serves at https://status.codametrix.com/api/, and (2) live responses fetched from each endpoint on 2026-08-04, every one of which returned HTTP 200. Schemas describe the fields actually observed in those responses. Nothing here is inferred beyond those two sources. See `x-evidence` below.'
+  contact:
+    name: CodaMetrix Support
+    email: support@codametrix.com
+    url: https://www.codametrix.com/
+  x-logo:
+    url: https://cdn.prod.website-files.com/684cc6638b0f0abf60033894/6858a1d6db0f8dcba0f11337_CodaMetrix-CodeForBetter.png
+servers:
+- url: https://status.codametrix.com/api/v2
+  description: CodaMetrix Statuspage Page API v2 (production, unauthenticated)
+security: []
+tags:
+- name: Scheduled Maintenances
+  description: Planned maintenance windows and their update timelines.
+paths:
+  /scheduled-maintenances.json:
+    get:
+      tags:
+      - Scheduled Maintenances
+      summary: List recent scheduled maintenances
+      description: Get a list of the 50 most recent scheduled maintenances. Includes the upcoming and active windows as well as those in the `completed` state.
+      operationId: getScheduledMaintenances
+      responses:
+        '200':
+          description: The 50 most recent scheduled maintenances.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduledMaintenancesResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /scheduled-maintenances/upcoming.json:
+    get:
+      tags:
+      - Scheduled Maintenances
+      summary: List upcoming scheduled maintenances
+      description: Get a list of any upcoming maintenances. Only returns maintenances still in the `scheduled` state.
+      operationId: getUpcomingScheduledMaintenances
+      responses:
+        '200':
+          description: Upcoming maintenances only.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduledMaintenancesResponse'
+              example:
+                page:
+                  id: 93g3jjmkfprd
+                  name: CodaMetrix
+                  url: https://status.codametrix.com
+                  time_zone: America/New_York
+                  updated_at: '2026-08-04T11:29:31-04:00'
+                scheduled_maintenances: []
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /scheduled-maintenances/active.json:
+    get:
+      tags:
+      - Scheduled Maintenances
+      summary: List active scheduled maintenances
+      description: Get a list of any active maintenances. Only returns maintenances in the `in_progress` or `verifying` state.
+      operationId: getActiveScheduledMaintenances
+      responses:
+        '200':
+          description: Active maintenances only.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduledMaintenancesResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: 'The requested path is not a Page API v2 endpoint. Observed live: an unknown path under /api/v2/ returns HTTP 404 with an empty body and no `content-type` — there is no JSON or RFC 9457 error envelope on this API.'
+  schemas:
+    Page:
+      type: object
+      description: Identity of the status page every response is scoped to.
+      properties:
+        id:
+          type: string
+          description: Statuspage page identifier for CodaMetrix.
+          examples:
+          - 93g3jjmkfprd
+        name:
+          type: string
+          examples:
+          - CodaMetrix
+        url:
+          type: string
+          format: uri
+          examples:
+          - https://status.codametrix.com
+        time_zone:
+          type: string
+          description: IANA time zone the page displays times in.
+          examples:
+          - America/New_York
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - url
+      - updated_at
+    ScheduledMaintenance:
+      type: object
+      description: A planned maintenance window and its update timeline.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+          enum:
+          - scheduled
+          - in_progress
+          - verifying
+          - completed
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        monitoring_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        resolved_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        impact:
+          type: string
+          enum:
+          - none
+          - minor
+          - major
+          - critical
+          - maintenance
+        shortlink:
+          type: string
+          format: uri
+        started_at:
+          type: string
+          format: date-time
+        page_id:
+          type: string
+        incident_updates:
+          type: array
+          items:
+            $ref: '#/components/schemas/IncidentUpdate'
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/Component'
+        scheduled_for:
+          type: string
+          format: date-time
+        scheduled_until:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - status
+      - impact
+      - page_id
+      - incident_updates
+    IncidentUpdate:
+      type: object
+      description: One dated post in an incident or maintenance timeline.
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          description: Incident states are `investigating`, `identified`, `monitoring`, `resolved`, `postmortem`; maintenance states are `scheduled`, `in_progress`, `verifying`, `completed`.
+        body:
+          type: string
+        incident_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        display_at:
+          type: string
+          format: date-time
+        affected_components:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AffectedComponent'
+        deliver_notifications:
+          type: boolean
+        custom_tweet:
+          type:
+          - string
+          - 'null'
+        tweet_id:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - status
+      - body
+      - incident_id
+      - created_at
+    ScheduledMaintenancesResponse:
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/Page'
+        scheduled_maintenances:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScheduledMaintenance'
+      required:
+      - page
+      - scheduled_maintenances
+    AffectedComponent:
+      type: object
+      description: Component status transition recorded on an incident update.
+      properties:
+        code:
+          type: string
+          description: The component id.
+        name:
+          type: string
+          description: Group-qualified component name.
+          examples:
+          - CMX-Automate - CMX Automate
+        old_status:
+          type: string
+        new_status:
+          type: string
+      required:
+      - code
+      - name
+    Component:
+      type: object
+      description: 'One component (or component group) on the CodaMetrix page. Groups carry `group: true` and a `components` array of child ids.'
+      properties:
+        id:
+          type: string
+          examples:
+          - pg7c1ssg6zpr
+        name:
+          type: string
+          examples:
+          - CMX Automate
+        status:
+          type: string
+          enum:
+          - operational
+          - degraded_performance
+          - partial_outage
+          - major_outage
+          - under_maintenance
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        position:
+          type: integer
+        description:
+          type:
+          - string
+          - 'null'
+        showcase:
+          type: boolean
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        group_id:
+          type:
+          - string
+          - 'null'
+          description: Id of the parent component group, when this component belongs to one.
+        page_id:
+          type: string
+        group:
+          type: boolean
+          description: True when this record is a component group header rather than a component.
+        only_show_if_degraded:
+          type: boolean
+        components:
+          type: array
+          description: Child component ids. Present only on group records.
+          items:
+            type: string
+      required:
+      - id
+      - name
+      - status
+      - page_id
+x-provenance:
+  generated: '2026-08-04'
+  method: generated
+  generated_by: API Evangelist enrichment pipeline
+  published_by_provider: false
+  note: CodaMetrix publishes no OpenAPI. This document was written from the endpoint reference CodaMetrix serves at https://status.codametrix.com/api/ and from live responses fetched from each path. It is an API Evangelist artifact describing a real, live, unauthenticated API — not a specification CodaMetrix authored or endorses.
+  sources:
+  - https://status.codametrix.com/api/
+  - examples/codametrix-status-summary.json
+  - examples/codametrix-status-status.json
+  - examples/codametrix-status-components.json
+  - examples/codametrix-status-incidents.json
+  - examples/codametrix-status-incidents-unresolved.json
+  - examples/codametrix-status-scheduled-maintenances.json
+  - examples/codametrix-status-scheduled-maintenances-upcoming.json
+  - examples/codametrix-status-scheduled-maintenances-active.json
+x-evidence:
+  fetched: '2026-08-04'
+  probes:
+  - url: https://status.codametrix.com/api/
+    http_status: 200
+    content_type: text/html
+  - url: https://status.codametrix.com/api/v2/summary.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/status.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/components.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/incidents.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/incidents/unresolved.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/scheduled-maintenances.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/scheduled-maintenances/upcoming.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/scheduled-maintenances/active.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/nonexistent.json
+    http_status: 404
+    note: empty body
+    no content-type: null

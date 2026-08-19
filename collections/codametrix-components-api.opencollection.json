@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CodaMetrix Status Components API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Components",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List page components",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://status.codametrix.com/api/v2/components.json"
+          },
+          "docs": "Get the components for the page. Each component is listed with its status — one of `operational`, `degraded_performance`, `partial_outage`, `major_outage` or `under_maintenance`. Components with `group: true` are group headers and carry a `components` array of the child component ids."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

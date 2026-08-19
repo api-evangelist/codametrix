@@ -3,12 +3,11 @@ method: derived
 source: openapi/codametrix-status-openapi.yml
 status: candidate
 published_by_provider: false
-summary: >-
-  No official hosted or remote Model Context Protocol server was found for CodaMetrix. Searched: the
-  codametrix.com site, the status and trust hosts, npm (no @codametrix packages, registry 404), PyPI (404),
-  and GitHub (no codametrix organization). The tool set below is DERIVED from the eight operations of the
-  CodaMetrix Status API as a proposal for an agent-facing surface. It is NOT published by CodaMetrix, and no
-  MCPServer pointer is claimed in apis.yml.
+summary: 'No official hosted or remote Model Context Protocol server was found for CodaMetrix. Searched:
+  the codametrix.com site, the status and trust hosts, npm (no @codametrix packages, registry 404), PyPI
+  (404), and GitHub (no codametrix organization). The tool set below is DERIVED from the eight operations
+  of the CodaMetrix Status API as a proposal for an agent-facing surface. It is NOT published by CodaMetrix,
+  and no MCPServer pointer is claimed in apis.yml.'
 server: null
 transport: null
 url: null
@@ -19,7 +18,8 @@ candidate_tools:
 - name: get_codametrix_status_summary
   maps_to: GET /summary.json
   source_operation: openapi/codametrix-status-openapi.yml#getSummary
-  description: Full CodaMetrix platform status rollup — indicator, components, unresolved incidents, active and upcoming maintenance.
+  description: Full CodaMetrix platform status rollup — indicator, components, unresolved incidents, active
+    and upcoming maintenance.
 - name: get_codametrix_status
   maps_to: GET /status.json
   source_operation: openapi/codametrix-status-openapi.yml#getStatus
@@ -27,7 +27,8 @@ candidate_tools:
 - name: list_codametrix_components
   maps_to: GET /components.json
   source_operation: openapi/codametrix-status-openapi.yml#getComponents
-  description: The CMX Automate / Analytics Dashboards / CMX-Amplify component tree with per-component status.
+  description: The CMX Automate / Analytics Dashboards / CMX-Amplify component tree with per-component
+    status.
 - name: list_codametrix_incidents
   maps_to: GET /incidents.json
   source_operation: openapi/codametrix-status-openapi.yml#getIncidents
@@ -49,12 +50,23 @@ candidate_tools:
   source_operation: openapi/codametrix-status-openapi.yml#getActiveScheduledMaintenances
   description: Maintenance windows in progress or verifying.
 notes:
-- Every candidate tool is read-only; none of them takes an input parameter, because no operation on this API accepts one.
+- Every candidate tool is read-only; none of them takes an input parameter, because no operation on this
+  API accepts one.
 - A real server should honor the 10-second cache-control and expose the weak ETag so agents can poll cheaply.
 x-evidence:
   fetched: '2026-08-04'
   searched:
-  - {url: 'https://registry.npmjs.org/codametrix', http_status: 404}
-  - {url: 'https://registry.npmjs.org/-/v1/search?text=codametrix', http_status: 200, results: 0}
-  - {url: 'https://pypi.org/pypi/codametrix/json', http_status: 404}
-  - {url: 'https://api.github.com/orgs/codametrix', http_status: 404}
+  - url: https://registry.npmjs.org/codametrix
+    http_status: 404
+  - url: https://registry.npmjs.org/-/v1/search?text=codametrix
+    http_status: 200
+    results: 0
+  - url: https://pypi.org/pypi/codametrix/json
+    http_status: 404
+  - url: https://api.github.com/orgs/codametrix
+    http_status: 404
+deployment:
+  mode: none
+  verified: derived
+  checked: '2026-08-12'
+  source: catalog MCP census

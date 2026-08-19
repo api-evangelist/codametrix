@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CodaMetrix Status Summary API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Summary",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get status page summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://status.codametrix.com/api/v2/summary.json"
+          },
+          "docs": "Get a summary of the status page, including a status indicator, component statuses, unresolved incidents, and any upcoming or in-progress scheduled maintenances. This is the single call most consumers need — it is the union of status.json, components.json, incidents/unresolved.json and the active/upcoming maintenance endpoints."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

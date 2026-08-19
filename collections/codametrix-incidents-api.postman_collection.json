@@ -1,0 +1,233 @@
+{
+  "item": [
+    {
+      "id": "e3896f1e-c739-4aa7-b6b6-a27f518f2e2b",
+      "name": "Incidents",
+      "description": {
+        "content": "Unplanned incidents and their update timelines.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "798e1ae5-67cc-484a-b897-647dd15c5713",
+          "name": "List recent incidents",
+          "request": {
+            "name": "List recent incidents",
+            "description": {
+              "content": "Get a list of the 50 most recent incidents. Includes all unresolved incidents as well as those in the `resolved` and `postmortem` state. There are no pagination parameters — the window is fixed at 50.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "incidents.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "91c9ab38-4d4b-48bc-bbc6-47f6b0175c2b",
+              "name": "The 50 most recent incidents.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "incidents.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"url\": \"http://pVWrpzxvTqNktCDexFu.jev18Ox3DELtEV,IUzSrIe6iyRASYO39svOs,dMb-gnfkfgvI1,k21AByphWV+\",\n    \"updated_at\": \"1958-12-21T02:12:30.963Z\",\n    \"time_zone\": \"string\"\n  },\n  \"incidents\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"status\": \"resolved\",\n      \"impact\": \"none\",\n      \"page_id\": \"string\",\n      \"incident_updates\": [\n        {\n          \"id\": \"string\",\n          \"status\": \"string\",\n          \"body\": \"string\",\n          \"incident_id\": \"string\",\n          \"created_at\": \"2009-10-10T11:29:06.533Z\",\n          \"updated_at\": \"1986-12-25T14:29:05.349Z\",\n          \"display_at\": \"1966-10-29T21:20:36.521Z\",\n          \"affected_components\": null,\n          \"deliver_notifications\": true,\n          \"custom_tweet\": null,\n          \"tweet_id\": null\n        },\n        {\n          \"id\": \"string\",\n          \"status\": \"string\",\n          \"body\": \"string\",\n          \"incident_id\": \"string\",\n          \"created_at\": \"1970-08-31T14:04:16.887Z\",\n          \"updated_at\": \"1962-10-26T21:17:19.690Z\",\n          \"display_at\": \"1985-10-27T19:23:47.610Z\",\n          \"affected_components\": null,\n          \"deliver_notifications\": false,\n          \"custom_tweet\": null,\n          \"tweet_id\": \"string\"\n        }\n      ],\n      \"created_at\": \"2014-02-11T07:14:03.343Z\",\n      \"updated_at\": \"1975-10-16T21:50:08.439Z\",\n      \"monitoring_at\": null,\n      \"resolved_at\": \"2018-12-30T20:21:30.898Z\",\n      \"shortlink\": \"https://tcqjQS.iwTXSaun8qvqit-Dqr3xLzjnyzv,-D,\",\n      \"started_at\": \"2019-05-09T01:32:02.059Z\",\n      \"components\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"status\": \"operational\",\n          \"page_id\": \"string\",\n          \"created_at\": \"1965-09-29T23:36:10.535Z\",\n          \"updated_at\": \"2000-10-29T05:00:08.073Z\",\n          \"position\": 7434,\n          \"description\": null,\n          \"showcase\": true,\n          \"start_date\": null,\n          \"group_id\": \"string\",\n          \"group\": false,\n          \"only_show_if_degraded\": false,\n          \"components\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"status\": \"major_outage\",\n          \"page_id\": \"string\",\n          \"created_at\": \"2002-04-20T22:30:22.875Z\",\n          \"updated_at\": \"2023-11-10T16:09:30.563Z\",\n          \"position\": 4353,\n          \"description\": \"string\",\n          \"showcase\": true,\n          \"start_date\": null,\n          \"group_id\": null,\n          \"group\": true,\n          \"only_show_if_degraded\": true,\n          \"components\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"reminder_intervals\": null\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"status\": \"investigating\",\n      \"impact\": \"none\",\n      \"page_id\": \"string\",\n      \"incident_updates\": [\n        {\n          \"id\": \"string\",\n          \"status\": \"string\",\n          \"body\": \"string\",\n          \"incident_id\": \"string\",\n          \"created_at\": \"1964-05-09T10:17:39.663Z\",\n          \"updated_at\": \"1995-02-01T21:58:57.766Z\",\n          \"display_at\": \"1952-12-28T12:44:23.012Z\",\n          \"affected_components\": null,\n          \"deliver_notifications\": true,\n          \"custom_tweet\": null,\n          \"tweet_id\": null\n        },\n        {\n          \"id\": \"string\",\n          \"status\": \"string\",\n          \"body\": \"string\",\n          \"incident_id\": \"string\",\n          \"created_at\": \"2009-05-19T22:46:39.379Z\",\n          \"updated_at\": \"1976-06-07T19:50:19.460Z\",\n          \"display_at\": \"1983-04-01T00:57:12.063Z\",\n          \"affected_components\": [\n            \"\",\n            \"\"\n          ],\n          \"deliver_notifications\": true,\n          \"custom_tweet\": \"string\",\n          \"tweet_id\": \"string\"\n        }\n      ],\n      \"created_at\": \"1982-10-20T00:10:18.010Z\",\n      \"updated_at\": \"1964-04-29T18:50:27.218Z\",\n      \"monitoring_at\": null,\n      \"resolved_at\": \"1966-10-22T09:07:41.793Z\",\n      \"shortlink\": \"https://zPtKInBTwmNksGdbYiXZ.tuiBUPxNCe-Djt\",\n      \"started_at\": \"2013-09-15T08:50:35.376Z\",\n      \"components\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"status\": \"partial_outage\",\n          \"page_id\": \"string\",\n          \"created_at\": \"1979-01-04T06:45:54.926Z\",\n          \"updated_at\": \"1981-05-23T08:05:32.068Z\",\n          \"position\": 2721,\n          \"description\": \"string\",\n          \"showcase\": false,\n          \"start_date\": null,\n          \"group_id\": \"string\",\n          \"group\": true,\n          \"only_show_if_degraded\": true,\n          \"components\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"status\": \"major_outage\",\n          \"page_id\": \"string\",\n          \"created_at\": \"2021-06-14T21:58:38.892Z\",\n          \"updated_at\": \"1973-09-15T19:15:10.001Z\",\n          \"position\": 7159,\n          \"description\": \"string\",\n          \"showcase\": false,\n          \"start_date\": null,\n          \"group_id\": null,\n          \"group\": true,\n          \"only_show_if_degraded\": true,\n          \"components\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"reminder_intervals\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "967b677c-daa2-4e32-a580-08d48f1171b2",
+              "name": "The requested path is not a Page API v2 endpoint. Observed live: an unknown path under /api/v2/ returns HTTP 404 with an empty body and no `content-type` — there is no JSON or RFC 9457 error envelope on this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "incidents.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "49e65e16-87c8-41da-869b-028e85f4af10",
+          "name": "List unresolved incidents",
+          "request": {
+            "name": "List unresolved incidents",
+            "description": {
+              "content": "Get a list of any unresolved incidents. Only returns incidents in the `investigating`, `identified` or `monitoring` state. Returns an empty `incidents` array when the platform is healthy.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "incidents",
+                "unresolved.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c6760bc0-f04a-4297-8bdd-e166367da7b8",
+              "name": "Unresolved incidents only.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "incidents",
+                    "unresolved.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": {\n    \"id\": \"93g3jjmkfprd\",\n    \"name\": \"CodaMetrix\",\n    \"url\": \"https://status.codametrix.com\",\n    \"time_zone\": \"America/New_York\",\n    \"updated_at\": \"2026-08-02T14:59:36.991-04:00\"\n  },\n  \"incidents\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b68289a3-78d2-49cf-91aa-fce2518628e6",
+              "name": "The requested path is not a Page API v2 endpoint. Observed live: an unknown path under /api/v2/ returns HTTP 404 with an empty body and no `content-type` — there is no JSON or RFC 9457 error envelope on this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "incidents",
+                    "unresolved.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://status.codametrix.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "39be39f5-5a36-49f5-ae0e-77c0b1b140e4",
+    "name": "CodaMetrix Status Incidents API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Machine-readable operational status for the CodaMetrix CMX CARE platform, served from CodaMetrix's own status host (status.codametrix.com) by Atlassian Statuspage as a Page API v2 instance. Every endpoint is an unauthenticated HTTP GET returning `application/json` with permissive CORS (`access-control-allow-origin: *`) and a 10 second edge cache. The API exposes the page identity, an overall status rollup, the component tree (CMX-Automate group containing CMX Automate and Analytics Dashboards, and the CMX-Amplify group), incidents (all and unresolved) and scheduled maintenances (all, upcoming, active). Incident history is additionally published as Atom and RSS feeds at https://status.codametrix.com/history.atom and https://status.codametrix.com/history.rss.\n\nPROVENANCE — this description is NOT published by CodaMetrix. CodaMetrix publishes no OpenAPI. This document was written by the API Evangelist enrichment pipeline from two sources only: (1) the endpoint reference CodaMetrix serves at https://status.codametrix.com/api/, and (2) live responses fetched from each endpoint on 2026-08-04, every one of which returned HTTP 200. Schemas describe the fields actually observed in those responses. Nothing here is inferred beyond those two sources. See `x-evidence` below.\n\nContact Support:\n Name: CodaMetrix Support\n Email: support@codametrix.com",
+      "type": "text/plain"
+    }
+  }
+}

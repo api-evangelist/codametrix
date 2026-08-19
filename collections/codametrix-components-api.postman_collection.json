@@ -1,0 +1,131 @@
+{
+  "item": [
+    {
+      "id": "a3db5b1f-f5fb-4944-9bb8-e3cbce21049a",
+      "name": "Components",
+      "description": {
+        "content": "The component tree for the CodaMetrix platform.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7293a878-92fc-43d2-99ee-01bb1d3788c8",
+          "name": "List page components",
+          "request": {
+            "name": "List page components",
+            "description": {
+              "content": "Get the components for the page. Each component is listed with its status — one of `operational`, `degraded_performance`, `partial_outage`, `major_outage` or `under_maintenance`. Components with `group: true` are group headers and carry a `components` array of the child component ids.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "components.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ffb58996-8569-402a-8056-22bb0e825d01",
+              "name": "The component tree.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"url\": \"https://ngMmtaTXPRgAAgqcZRN.cwsGtRKO3BsoL2wd\",\n    \"updated_at\": \"1949-01-25T04:29:52.472Z\",\n    \"time_zone\": \"string\"\n  },\n  \"components\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"status\": \"partial_outage\",\n      \"page_id\": \"string\",\n      \"created_at\": \"1973-11-17T03:31:03.860Z\",\n      \"updated_at\": \"1989-05-25T23:25:01.264Z\",\n      \"position\": 479,\n      \"description\": null,\n      \"showcase\": false,\n      \"start_date\": null,\n      \"group_id\": \"string\",\n      \"group\": true,\n      \"only_show_if_degraded\": false,\n      \"components\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"status\": \"partial_outage\",\n      \"page_id\": \"string\",\n      \"created_at\": \"1962-02-05T00:29:01.790Z\",\n      \"updated_at\": \"1950-08-01T09:23:54.024Z\",\n      \"position\": 7259,\n      \"description\": \"string\",\n      \"showcase\": false,\n      \"start_date\": null,\n      \"group_id\": null,\n      \"group\": false,\n      \"only_show_if_degraded\": false,\n      \"components\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d017a85d-ee7d-40fc-80d7-4ecb04f28b4e",
+              "name": "The requested path is not a Page API v2 endpoint. Observed live: an unknown path under /api/v2/ returns HTTP 404 with an empty body and no `content-type` — there is no JSON or RFC 9457 error envelope on this API.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://status.codametrix.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1c169dc1-0a52-4442-bf70-350626c2837f",
+    "name": "CodaMetrix Status Components API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Machine-readable operational status for the CodaMetrix CMX CARE platform, served from CodaMetrix's own status host (status.codametrix.com) by Atlassian Statuspage as a Page API v2 instance. Every endpoint is an unauthenticated HTTP GET returning `application/json` with permissive CORS (`access-control-allow-origin: *`) and a 10 second edge cache. The API exposes the page identity, an overall status rollup, the component tree (CMX-Automate group containing CMX Automate and Analytics Dashboards, and the CMX-Amplify group), incidents (all and unresolved) and scheduled maintenances (all, upcoming, active). Incident history is additionally published as Atom and RSS feeds at https://status.codametrix.com/history.atom and https://status.codametrix.com/history.rss.\n\nPROVENANCE — this description is NOT published by CodaMetrix. CodaMetrix publishes no OpenAPI. This document was written by the API Evangelist enrichment pipeline from two sources only: (1) the endpoint reference CodaMetrix serves at https://status.codametrix.com/api/, and (2) live responses fetched from each endpoint on 2026-08-04, every one of which returned HTTP 200. Schemas describe the fields actually observed in those responses. Nothing here is inferred beyond those two sources. See `x-evidence` below.\n\nContact Support:\n Name: CodaMetrix Support\n Email: support@codametrix.com",
+      "type": "text/plain"
+    }
+  }
+}

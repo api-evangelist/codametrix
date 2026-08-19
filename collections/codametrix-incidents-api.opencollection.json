@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CodaMetrix Status Incidents API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Incidents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List recent incidents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://status.codametrix.com/api/v2/incidents.json"
+          },
+          "docs": "Get a list of the 50 most recent incidents. Includes all unresolved incidents as well as those in the `resolved` and `postmortem` state. There are no pagination parameters — the window is fixed at 50."
+        },
+        {
+          "info": {
+            "name": "List unresolved incidents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://status.codametrix.com/api/v2/incidents/unresolved.json"
+          },
+          "docs": "Get a list of any unresolved incidents. Only returns incidents in the `investigating`, `identified` or `monitoring` state. Returns an empty `incidents` array when the platform is healthy."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

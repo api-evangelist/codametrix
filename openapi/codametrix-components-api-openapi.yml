@@ -1,0 +1,198 @@
+openapi: 3.2.0
+info:
+  title: CodaMetrix Status Components API
+  version: '2.0'
+  summary: Public, unauthenticated JSON status API for the CodaMetrix platform.
+  description: 'Machine-readable operational status for the CodaMetrix CMX CARE platform, served from CodaMetrix''s own status host (status.codametrix.com) by Atlassian Statuspage as a Page API v2 instance. Every endpoint is an unauthenticated HTTP GET returning `application/json` with permissive CORS (`access-control-allow-origin: *`) and a 10 second edge cache. The API exposes the page identity, an overall status rollup, the component tree (CMX-Automate group containing CMX Automate and Analytics Dashboards, and the CMX-Amplify group), incidents (all and unresolved) and scheduled maintenances (all, upcoming, active). Incident history is additionally published as Atom and RSS feeds at https://status.codametrix.com/history.atom and https://status.codametrix.com/history.rss.
+
+
+    PROVENANCE — this description is NOT published by CodaMetrix. CodaMetrix publishes no OpenAPI. This document was written by the API Evangelist enrichment pipeline from two sources only: (1) the endpoint reference CodaMetrix serves at https://status.codametrix.com/api/, and (2) live responses fetched from each endpoint on 2026-08-04, every one of which returned HTTP 200. Schemas describe the fields actually observed in those responses. Nothing here is inferred beyond those two sources. See `x-evidence` below.'
+  contact:
+    name: CodaMetrix Support
+    email: support@codametrix.com
+    url: https://www.codametrix.com/
+  x-logo:
+    url: https://cdn.prod.website-files.com/684cc6638b0f0abf60033894/6858a1d6db0f8dcba0f11337_CodaMetrix-CodeForBetter.png
+servers:
+- url: https://status.codametrix.com/api/v2
+  description: CodaMetrix Statuspage Page API v2 (production, unauthenticated)
+security: []
+tags:
+- name: Components
+  description: The component tree for the CodaMetrix platform.
+paths:
+  /components.json:
+    get:
+      tags:
+      - Components
+      summary: List page components
+      description: 'Get the components for the page. Each component is listed with its status — one of `operational`, `degraded_performance`, `partial_outage`, `major_outage` or `under_maintenance`. Components with `group: true` are group headers and carry a `components` array of the child component ids.'
+      operationId: getComponents
+      responses:
+        '200':
+          description: The component tree.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentsResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Component:
+      type: object
+      description: 'One component (or component group) on the CodaMetrix page. Groups carry `group: true` and a `components` array of child ids.'
+      properties:
+        id:
+          type: string
+          examples:
+          - pg7c1ssg6zpr
+        name:
+          type: string
+          examples:
+          - CMX Automate
+        status:
+          type: string
+          enum:
+          - operational
+          - degraded_performance
+          - partial_outage
+          - major_outage
+          - under_maintenance
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        position:
+          type: integer
+        description:
+          type:
+          - string
+          - 'null'
+        showcase:
+          type: boolean
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        group_id:
+          type:
+          - string
+          - 'null'
+          description: Id of the parent component group, when this component belongs to one.
+        page_id:
+          type: string
+        group:
+          type: boolean
+          description: True when this record is a component group header rather than a component.
+        only_show_if_degraded:
+          type: boolean
+        components:
+          type: array
+          description: Child component ids. Present only on group records.
+          items:
+            type: string
+      required:
+      - id
+      - name
+      - status
+      - page_id
+    ComponentsResponse:
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/Page'
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/Component'
+      required:
+      - page
+      - components
+    Page:
+      type: object
+      description: Identity of the status page every response is scoped to.
+      properties:
+        id:
+          type: string
+          description: Statuspage page identifier for CodaMetrix.
+          examples:
+          - 93g3jjmkfprd
+        name:
+          type: string
+          examples:
+          - CodaMetrix
+        url:
+          type: string
+          format: uri
+          examples:
+          - https://status.codametrix.com
+        time_zone:
+          type: string
+          description: IANA time zone the page displays times in.
+          examples:
+          - America/New_York
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - url
+      - updated_at
+  responses:
+    NotFound:
+      description: 'The requested path is not a Page API v2 endpoint. Observed live: an unknown path under /api/v2/ returns HTTP 404 with an empty body and no `content-type` — there is no JSON or RFC 9457 error envelope on this API.'
+x-provenance:
+  generated: '2026-08-04'
+  method: generated
+  generated_by: API Evangelist enrichment pipeline
+  published_by_provider: false
+  note: CodaMetrix publishes no OpenAPI. This document was written from the endpoint reference CodaMetrix serves at https://status.codametrix.com/api/ and from live responses fetched from each path. It is an API Evangelist artifact describing a real, live, unauthenticated API — not a specification CodaMetrix authored or endorses.
+  sources:
+  - https://status.codametrix.com/api/
+  - examples/codametrix-status-summary.json
+  - examples/codametrix-status-status.json
+  - examples/codametrix-status-components.json
+  - examples/codametrix-status-incidents.json
+  - examples/codametrix-status-incidents-unresolved.json
+  - examples/codametrix-status-scheduled-maintenances.json
+  - examples/codametrix-status-scheduled-maintenances-upcoming.json
+  - examples/codametrix-status-scheduled-maintenances-active.json
+x-evidence:
+  fetched: '2026-08-04'
+  probes:
+  - url: https://status.codametrix.com/api/
+    http_status: 200
+    content_type: text/html
+  - url: https://status.codametrix.com/api/v2/summary.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/status.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/components.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/incidents.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/incidents/unresolved.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/scheduled-maintenances.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/scheduled-maintenances/upcoming.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/scheduled-maintenances/active.json
+    http_status: 200
+    content_type: application/json
+  - url: https://status.codametrix.com/api/v2/nonexistent.json
+    http_status: 404
+    note: empty body
+    no content-type: null

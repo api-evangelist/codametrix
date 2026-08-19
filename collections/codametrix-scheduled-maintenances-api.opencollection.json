@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CodaMetrix Status Scheduled Maintenances API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Scheduled Maintenances",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List recent scheduled maintenances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://status.codametrix.com/api/v2/scheduled-maintenances.json"
+          },
+          "docs": "Get a list of the 50 most recent scheduled maintenances. Includes the upcoming and active windows as well as those in the `completed` state."
+        },
+        {
+          "info": {
+            "name": "List upcoming scheduled maintenances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://status.codametrix.com/api/v2/scheduled-maintenances/upcoming.json"
+          },
+          "docs": "Get a list of any upcoming maintenances. Only returns maintenances still in the `scheduled` state."
+        },
+        {
+          "info": {
+            "name": "List active scheduled maintenances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://status.codametrix.com/api/v2/scheduled-maintenances/active.json"
+          },
+          "docs": "Get a list of any active maintenances. Only returns maintenances in the `in_progress` or `verifying` state."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
