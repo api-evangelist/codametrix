@@ -11,6 +11,17 @@ description: >-
   publicly callable surface CodaMetrix operates is the unauthenticated Atlassian Statuspage Page API on
   status.codametrix.com. The company has raised $95M across Series A and Series B and was ranked No. 1 in
   the inaugural Best in KLAS category for autonomous medical coding.
+deliveryModel:
+  model: unknown
+  open_source: false
+  commercial: false
+  callable_host: true
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - openapi
+  generated: '2026-08-28'
+  method: derived
 image: https://cdn.prod.website-files.com/684cc6638b0f0abf60033894/6858a1d6db0f8dcba0f11337_CodaMetrix-CodeForBetter.png
 url: https://raw.githubusercontent.com/api-evangelist/codametrix/refs/heads/main/apis.yml
 x-type: company
