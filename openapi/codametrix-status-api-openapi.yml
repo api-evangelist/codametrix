@@ -3,10 +3,7 @@ info:
   title: CodaMetrix Status API
   version: '2.0'
   summary: Public, unauthenticated JSON status API for the CodaMetrix platform.
-  description: 'Machine-readable operational status for the CodaMetrix CMX CARE platform, served from CodaMetrix''s own status host (status.codametrix.com) by Atlassian Statuspage as a Page API v2 instance. Every endpoint is an unauthenticated HTTP GET returning `application/json` with permissive CORS (`access-control-allow-origin: *`) and a 10 second edge cache. The API exposes the page identity, an overall status rollup, the component tree (CMX-Automate group containing CMX Automate and Analytics Dashboards, and the CMX-Amplify group), incidents (all and unresolved) and scheduled maintenances (all, upcoming, active). Incident history is additionally published as Atom and RSS feeds at https://status.codametrix.com/history.atom and https://status.codametrix.com/history.rss.
-
-
-    PROVENANCE — this description is NOT published by CodaMetrix. CodaMetrix publishes no OpenAPI. This document was written by the API Evangelist enrichment pipeline from two sources only: (1) the endpoint reference CodaMetrix serves at https://status.codametrix.com/api/, and (2) live responses fetched from each endpoint on 2026-08-04, every one of which returned HTTP 200. Schemas describe the fields actually observed in those responses. Nothing here is inferred beyond those two sources. See `x-evidence` below.'
+  description: Machine-readable operational status for the CodaMetrix CMX CARE platform, served from CodaMetrix's own status host (status.codametrix.com) by Atlassian Statuspage as a Page API v2 instance.
   contact:
     name: CodaMetrix Support
     email: support@codametrix.com
@@ -80,6 +77,16 @@ components:
       - name
       - url
       - updated_at
+    StatusResponse:
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/Page'
+        status:
+          $ref: '#/components/schemas/Status'
+      required:
+      - page
+      - status
     Status:
       type: object
       description: Blended rollup of every component status on the page.
@@ -99,16 +106,6 @@ components:
       required:
       - indicator
       - description
-    StatusResponse:
-      type: object
-      properties:
-        page:
-          $ref: '#/components/schemas/Page'
-        status:
-          $ref: '#/components/schemas/Status'
-      required:
-      - page
-      - status
   responses:
     NotFound:
       description: 'The requested path is not a Page API v2 endpoint. Observed live: an unknown path under /api/v2/ returns HTTP 404 with an empty body and no `content-type` — there is no JSON or RFC 9457 error envelope on this API.'

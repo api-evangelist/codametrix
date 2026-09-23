@@ -1,11 +1,7 @@
 {
   "provider": "codametrix",
   "sources": [
-    "codametrix-components-api-openapi.yml",
-    "codametrix-incidents-api-openapi.yml",
-    "codametrix-scheduled-maintenances-api-openapi.yml",
-    "codametrix-status-api-openapi.yml",
-    "codametrix-summary-api-openapi.yml"
+    "_original/codametrix-status-openapi.yml"
   ],
   "outputs": [
     "codametrix-components-api-openapi.yml",
@@ -18,12 +14,15 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "codametrix-components-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "codametrix-incidents-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "codametrix-scheduled-maintenances-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "codametrix-status-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "codametrix-summary-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "codametrix-status-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "codametrix-components-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "codametrix-incidents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "codametrix-scheduled-maintenances-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "codametrix-status-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "codametrix-summary-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
