@@ -35,10 +35,19 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: 'The requested path is not a Page API v2 endpoint. Observed live: an unknown path under /api/v2/ returns HTTP 404 with an empty body and no `content-type` — there is no JSON or RFC 9457 error envelope on this API.'
   schemas:
+    ComponentsResponse:
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/Page'
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/Component'
+      required:
+      - page
+      - components
     Component:
       type: object
       description: 'One component (or component group) on the CodaMetrix page. Groups carry `group: true` and a `components` array of child ids.'
@@ -131,18 +140,9 @@ components:
       - name
       - url
       - updated_at
-    ComponentsResponse:
-      type: object
-      properties:
-        page:
-          $ref: '#/components/schemas/Page'
-        components:
-          type: array
-          items:
-            $ref: '#/components/schemas/Component'
-      required:
-      - page
-      - components
+  responses:
+    NotFound:
+      description: 'The requested path is not a Page API v2 endpoint. Observed live: an unknown path under /api/v2/ returns HTTP 404 with an empty body and no `content-type` — there is no JSON or RFC 9457 error envelope on this API.'
 x-provenance:
   generated: '2026-08-04'
   method: generated

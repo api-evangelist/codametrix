@@ -53,7 +53,7 @@ tags:
 - Revenue Cycle Management
 - Clinical Documentation
 - Healthcare AI
-- Machine-Learning
+- Machine Learning
 - Natural Language Processing
 - EHR Integration
 - Status
@@ -70,6 +70,7 @@ tags_raw:
 - natural-language-processing
 - ehr-integration
 - status
+- Machine-Learning
 apis:
 - aid: codametrix:codametrix-components-api
   name: CodaMetrix Components API

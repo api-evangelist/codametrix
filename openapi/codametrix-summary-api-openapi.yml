@@ -48,25 +48,184 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    AffectedComponent:
+    Component:
       type: object
-      description: Component status transition recorded on an incident update.
+      description: 'One component (or component group) on the CodaMetrix page. Groups carry `group: true` and a `components` array of child ids.'
       properties:
-        code:
+        id:
           type: string
-          description: The component id.
+          examples:
+          - pg7c1ssg6zpr
         name:
           type: string
-          description: Group-qualified component name.
           examples:
-          - CMX-Automate - CMX Automate
-        old_status:
+          - CMX Automate
+        status:
           type: string
-        new_status:
+          enum:
+          - operational
+          - degraded_performance
+          - partial_outage
+          - major_outage
+          - under_maintenance
+        created_at:
           type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        position:
+          type: integer
+        description:
+          type:
+          - string
+          - 'null'
+        showcase:
+          type: boolean
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        group_id:
+          type:
+          - string
+          - 'null'
+          description: Id of the parent component group, when this component belongs to one.
+        page_id:
+          type: string
+        group:
+          type: boolean
+          description: True when this record is a component group header rather than a component.
+        only_show_if_degraded:
+          type: boolean
+        components:
+          type: array
+          description: Child component ids. Present only on group records.
+          items:
+            type: string
       required:
-      - code
+      - id
       - name
+      - status
+      - page_id
+    Status:
+      type: object
+      description: Blended rollup of every component status on the page.
+      properties:
+        indicator:
+          type: string
+          enum:
+          - none
+          - minor
+          - major
+          - critical
+          - maintenance
+        description:
+          type: string
+          examples:
+          - All Systems Operational
+      required:
+      - indicator
+      - description
+    Page:
+      type: object
+      description: Identity of the status page every response is scoped to.
+      properties:
+        id:
+          type: string
+          description: Statuspage page identifier for CodaMetrix.
+          examples:
+          - 93g3jjmkfprd
+        name:
+          type: string
+          examples:
+          - CodaMetrix
+        url:
+          type: string
+          format: uri
+          examples:
+          - https://status.codametrix.com
+        time_zone:
+          type: string
+          description: IANA time zone the page displays times in.
+          examples:
+          - America/New_York
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - url
+      - updated_at
+    Incident:
+      type: object
+      description: An unplanned incident and its full update timeline.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+          enum:
+          - investigating
+          - identified
+          - monitoring
+          - resolved
+          - postmortem
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        monitoring_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        resolved_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        impact:
+          type: string
+          enum:
+          - none
+          - minor
+          - major
+          - critical
+        shortlink:
+          type: string
+          format: uri
+          description: stspg.io short link to the public incident page.
+        started_at:
+          type: string
+          format: date-time
+        page_id:
+          type: string
+        incident_updates:
+          type: array
+          items:
+            $ref: '#/components/schemas/IncidentUpdate'
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/Component'
+        reminder_intervals:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - name
+      - status
+      - impact
+      - page_id
+      - incident_updates
     SummaryResponse:
       type: object
       properties:
@@ -138,134 +297,6 @@ components:
       - body
       - incident_id
       - created_at
-    Component:
-      type: object
-      description: 'One component (or component group) on the CodaMetrix page. Groups carry `group: true` and a `components` array of child ids.'
-      properties:
-        id:
-          type: string
-          examples:
-          - pg7c1ssg6zpr
-        name:
-          type: string
-          examples:
-          - CMX Automate
-        status:
-          type: string
-          enum:
-          - operational
-          - degraded_performance
-          - partial_outage
-          - major_outage
-          - under_maintenance
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        position:
-          type: integer
-        description:
-          type:
-          - string
-          - 'null'
-        showcase:
-          type: boolean
-        start_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        group_id:
-          type:
-          - string
-          - 'null'
-          description: Id of the parent component group, when this component belongs to one.
-        page_id:
-          type: string
-        group:
-          type: boolean
-          description: True when this record is a component group header rather than a component.
-        only_show_if_degraded:
-          type: boolean
-        components:
-          type: array
-          description: Child component ids. Present only on group records.
-          items:
-            type: string
-      required:
-      - id
-      - name
-      - status
-      - page_id
-    Incident:
-      type: object
-      description: An unplanned incident and its full update timeline.
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        status:
-          type: string
-          enum:
-          - investigating
-          - identified
-          - monitoring
-          - resolved
-          - postmortem
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        monitoring_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        resolved_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        impact:
-          type: string
-          enum:
-          - none
-          - minor
-          - major
-          - critical
-        shortlink:
-          type: string
-          format: uri
-          description: stspg.io short link to the public incident page.
-        started_at:
-          type: string
-          format: date-time
-        page_id:
-          type: string
-        incident_updates:
-          type: array
-          items:
-            $ref: '#/components/schemas/IncidentUpdate'
-        components:
-          type: array
-          items:
-            $ref: '#/components/schemas/Component'
-        reminder_intervals:
-          type:
-          - string
-          - 'null'
-      required:
-      - id
-      - name
-      - status
-      - impact
-      - page_id
-      - incident_updates
     ScheduledMaintenance:
       type: object
       description: A planned maintenance window and its update timeline.
@@ -334,56 +365,25 @@ components:
       - impact
       - page_id
       - incident_updates
-    Page:
+    AffectedComponent:
       type: object
-      description: Identity of the status page every response is scoped to.
+      description: Component status transition recorded on an incident update.
       properties:
-        id:
+        code:
           type: string
-          description: Statuspage page identifier for CodaMetrix.
-          examples:
-          - 93g3jjmkfprd
+          description: The component id.
         name:
           type: string
+          description: Group-qualified component name.
           examples:
-          - CodaMetrix
-        url:
+          - CMX-Automate - CMX Automate
+        old_status:
           type: string
-          format: uri
-          examples:
-          - https://status.codametrix.com
-        time_zone:
+        new_status:
           type: string
-          description: IANA time zone the page displays times in.
-          examples:
-          - America/New_York
-        updated_at:
-          type: string
-          format: date-time
       required:
-      - id
+      - code
       - name
-      - url
-      - updated_at
-    Status:
-      type: object
-      description: Blended rollup of every component status on the page.
-      properties:
-        indicator:
-          type: string
-          enum:
-          - none
-          - minor
-          - major
-          - critical
-          - maintenance
-        description:
-          type: string
-          examples:
-          - All Systems Operational
-      required:
-      - indicator
-      - description
   responses:
     NotFound:
       description: 'The requested path is not a Page API v2 endpoint. Observed live: an unknown path under /api/v2/ returns HTTP 404 with an empty body and no `content-type` — there is no JSON or RFC 9457 error envelope on this API.'

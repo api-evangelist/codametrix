@@ -60,25 +60,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    AffectedComponent:
-      type: object
-      description: Component status transition recorded on an incident update.
-      properties:
-        code:
-          type: string
-          description: The component id.
-        name:
-          type: string
-          description: Group-qualified component name.
-          examples:
-          - CMX-Automate - CMX Automate
-        old_status:
-          type: string
-        new_status:
-          type: string
-      required:
-      - code
-      - name
     IncidentsResponse:
       type: object
       properties:
@@ -152,50 +133,37 @@ components:
       - name
       - status
       - page_id
-    IncidentUpdate:
+    Page:
       type: object
-      description: One dated post in an incident or maintenance timeline.
+      description: Identity of the status page every response is scoped to.
       properties:
         id:
           type: string
-        status:
+          description: Statuspage page identifier for CodaMetrix.
+          examples:
+          - 93g3jjmkfprd
+        name:
           type: string
-          description: Incident states are `investigating`, `identified`, `monitoring`, `resolved`, `postmortem`; maintenance states are `scheduled`, `in_progress`, `verifying`, `completed`.
-        body:
+          examples:
+          - CodaMetrix
+        url:
           type: string
-        incident_id:
+          format: uri
+          examples:
+          - https://status.codametrix.com
+        time_zone:
           type: string
-        created_at:
-          type: string
-          format: date-time
+          description: IANA time zone the page displays times in.
+          examples:
+          - America/New_York
         updated_at:
           type: string
           format: date-time
-        display_at:
-          type: string
-          format: date-time
-        affected_components:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AffectedComponent'
-        deliver_notifications:
-          type: boolean
-        custom_tweet:
-          type:
-          - string
-          - 'null'
-        tweet_id:
-          type:
-          - string
-          - 'null'
       required:
       - id
-      - status
-      - body
-      - incident_id
-      - created_at
+      - name
+      - url
+      - updated_at
     Incident:
       type: object
       description: An unplanned incident and its full update timeline.
@@ -263,37 +231,69 @@ components:
       - impact
       - page_id
       - incident_updates
-    Page:
+    IncidentUpdate:
       type: object
-      description: Identity of the status page every response is scoped to.
+      description: One dated post in an incident or maintenance timeline.
       properties:
         id:
           type: string
-          description: Statuspage page identifier for CodaMetrix.
-          examples:
-          - 93g3jjmkfprd
-        name:
+        status:
           type: string
-          examples:
-          - CodaMetrix
-        url:
+          description: Incident states are `investigating`, `identified`, `monitoring`, `resolved`, `postmortem`; maintenance states are `scheduled`, `in_progress`, `verifying`, `completed`.
+        body:
           type: string
-          format: uri
-          examples:
-          - https://status.codametrix.com
-        time_zone:
+        incident_id:
           type: string
-          description: IANA time zone the page displays times in.
-          examples:
-          - America/New_York
+        created_at:
+          type: string
+          format: date-time
         updated_at:
           type: string
           format: date-time
+        display_at:
+          type: string
+          format: date-time
+        affected_components:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AffectedComponent'
+        deliver_notifications:
+          type: boolean
+        custom_tweet:
+          type:
+          - string
+          - 'null'
+        tweet_id:
+          type:
+          - string
+          - 'null'
       required:
       - id
+      - status
+      - body
+      - incident_id
+      - created_at
+    AffectedComponent:
+      type: object
+      description: Component status transition recorded on an incident update.
+      properties:
+        code:
+          type: string
+          description: The component id.
+        name:
+          type: string
+          description: Group-qualified component name.
+          examples:
+          - CMX-Automate - CMX Automate
+        old_status:
+          type: string
+        new_status:
+          type: string
+      required:
+      - code
       - name
-      - url
-      - updated_at
   responses:
     NotFound:
       description: 'The requested path is not a Page API v2 endpoint. Observed live: an unknown path under /api/v2/ returns HTTP 404 with an empty body and no `content-type` — there is no JSON or RFC 9457 error envelope on this API.'
