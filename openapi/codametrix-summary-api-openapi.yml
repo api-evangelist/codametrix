@@ -48,33 +48,105 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    SummaryResponse:
+    Page:
       type: object
+      description: Identity of the status page every response is scoped to.
       properties:
-        page:
-          $ref: '#/components/schemas/Page'
+        id:
+          type: string
+          description: Statuspage page identifier for CodaMetrix.
+          examples:
+          - 93g3jjmkfprd
+        name:
+          type: string
+          examples:
+          - CodaMetrix
+        url:
+          type: string
+          format: uri
+          examples:
+          - https://status.codametrix.com
+        time_zone:
+          type: string
+          description: IANA time zone the page displays times in.
+          examples:
+          - America/New_York
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - url
+      - updated_at
+    ScheduledMaintenance:
+      type: object
+      description: A planned maintenance window and its update timeline.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
         status:
-          $ref: '#/components/schemas/Status'
+          type: string
+          enum:
+          - scheduled
+          - in_progress
+          - verifying
+          - completed
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        monitoring_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        resolved_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        impact:
+          type: string
+          enum:
+          - none
+          - minor
+          - major
+          - critical
+          - maintenance
+        shortlink:
+          type: string
+          format: uri
+        started_at:
+          type: string
+          format: date-time
+        page_id:
+          type: string
+        incident_updates:
+          type: array
+          items:
+            $ref: '#/components/schemas/IncidentUpdate'
         components:
           type: array
           items:
             $ref: '#/components/schemas/Component'
-        incidents:
-          type: array
-          description: Unresolved incidents only.
-          items:
-            $ref: '#/components/schemas/Incident'
-        scheduled_maintenances:
-          type: array
-          description: Active and upcoming maintenances only.
-          items:
-            $ref: '#/components/schemas/ScheduledMaintenance'
+        scheduled_for:
+          type: string
+          format: date-time
+        scheduled_until:
+          type: string
+          format: date-time
       required:
-      - page
+      - id
+      - name
       - status
-      - components
-      - incidents
-      - scheduled_maintenances
+      - impact
+      - page_id
+      - incident_updates
     Component:
       type: object
       description: 'One component (or component group) on the CodaMetrix page. Groups carry `group: true` and a `components` array of child ids.'
@@ -136,37 +208,6 @@ components:
       - name
       - status
       - page_id
-    Page:
-      type: object
-      description: Identity of the status page every response is scoped to.
-      properties:
-        id:
-          type: string
-          description: Statuspage page identifier for CodaMetrix.
-          examples:
-          - 93g3jjmkfprd
-        name:
-          type: string
-          examples:
-          - CodaMetrix
-        url:
-          type: string
-          format: uri
-          examples:
-          - https://status.codametrix.com
-        time_zone:
-          type: string
-          description: IANA time zone the page displays times in.
-          examples:
-          - America/New_York
-        updated_at:
-          type: string
-          format: date-time
-      required:
-      - id
-      - name
-      - url
-      - updated_at
     Incident:
       type: object
       description: An unplanned incident and its full update timeline.
@@ -253,93 +294,6 @@ components:
       required:
       - code
       - name
-    ScheduledMaintenance:
-      type: object
-      description: A planned maintenance window and its update timeline.
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        status:
-          type: string
-          enum:
-          - scheduled
-          - in_progress
-          - verifying
-          - completed
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        monitoring_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        resolved_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        impact:
-          type: string
-          enum:
-          - none
-          - minor
-          - major
-          - critical
-          - maintenance
-        shortlink:
-          type: string
-          format: uri
-        started_at:
-          type: string
-          format: date-time
-        page_id:
-          type: string
-        incident_updates:
-          type: array
-          items:
-            $ref: '#/components/schemas/IncidentUpdate'
-        components:
-          type: array
-          items:
-            $ref: '#/components/schemas/Component'
-        scheduled_for:
-          type: string
-          format: date-time
-        scheduled_until:
-          type: string
-          format: date-time
-      required:
-      - id
-      - name
-      - status
-      - impact
-      - page_id
-      - incident_updates
-    Status:
-      type: object
-      description: Blended rollup of every component status on the page.
-      properties:
-        indicator:
-          type: string
-          enum:
-          - none
-          - minor
-          - major
-          - critical
-          - maintenance
-        description:
-          type: string
-          examples:
-          - All Systems Operational
-      required:
-      - indicator
-      - description
     IncidentUpdate:
       type: object
       description: One dated post in an incident or maintenance timeline.
@@ -384,6 +338,52 @@ components:
       - body
       - incident_id
       - created_at
+    SummaryResponse:
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/Page'
+        status:
+          $ref: '#/components/schemas/Status'
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/Component'
+        incidents:
+          type: array
+          description: Unresolved incidents only.
+          items:
+            $ref: '#/components/schemas/Incident'
+        scheduled_maintenances:
+          type: array
+          description: Active and upcoming maintenances only.
+          items:
+            $ref: '#/components/schemas/ScheduledMaintenance'
+      required:
+      - page
+      - status
+      - components
+      - incidents
+      - scheduled_maintenances
+    Status:
+      type: object
+      description: Blended rollup of every component status on the page.
+      properties:
+        indicator:
+          type: string
+          enum:
+          - none
+          - minor
+          - major
+          - critical
+          - maintenance
+        description:
+          type: string
+          examples:
+          - All Systems Operational
+      required:
+      - indicator
+      - description
   responses:
     NotFound:
       description: 'The requested path is not a Page API v2 endpoint. Observed live: an unknown path under /api/v2/ returns HTTP 404 with an empty body and no `content-type` — there is no JSON or RFC 9457 error envelope on this API.'

@@ -60,6 +60,37 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Page:
+      type: object
+      description: Identity of the status page every response is scoped to.
+      properties:
+        id:
+          type: string
+          description: Statuspage page identifier for CodaMetrix.
+          examples:
+          - 93g3jjmkfprd
+        name:
+          type: string
+          examples:
+          - CodaMetrix
+        url:
+          type: string
+          format: uri
+          examples:
+          - https://status.codametrix.com
+        time_zone:
+          type: string
+          description: IANA time zone the page displays times in.
+          examples:
+          - America/New_York
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - url
+      - updated_at
     Component:
       type: object
       description: 'One component (or component group) on the CodaMetrix page. Groups carry `group: true` and a `components` array of child ids.'
@@ -121,49 +152,6 @@ components:
       - name
       - status
       - page_id
-    IncidentsResponse:
-      type: object
-      properties:
-        page:
-          $ref: '#/components/schemas/Page'
-        incidents:
-          type: array
-          items:
-            $ref: '#/components/schemas/Incident'
-      required:
-      - page
-      - incidents
-    Page:
-      type: object
-      description: Identity of the status page every response is scoped to.
-      properties:
-        id:
-          type: string
-          description: Statuspage page identifier for CodaMetrix.
-          examples:
-          - 93g3jjmkfprd
-        name:
-          type: string
-          examples:
-          - CodaMetrix
-        url:
-          type: string
-          format: uri
-          examples:
-          - https://status.codametrix.com
-        time_zone:
-          type: string
-          description: IANA time zone the page displays times in.
-          examples:
-          - America/New_York
-        updated_at:
-          type: string
-          format: date-time
-      required:
-      - id
-      - name
-      - url
-      - updated_at
     Incident:
       type: object
       description: An unplanned incident and its full update timeline.
@@ -231,6 +219,18 @@ components:
       - impact
       - page_id
       - incident_updates
+    IncidentsResponse:
+      type: object
+      properties:
+        page:
+          $ref: '#/components/schemas/Page'
+        incidents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Incident'
+      required:
+      - page
+      - incidents
     AffectedComponent:
       type: object
       description: Component status transition recorded on an incident update.
