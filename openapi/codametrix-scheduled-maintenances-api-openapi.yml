@@ -76,37 +76,86 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Page:
+    AffectedComponent:
       type: object
-      description: Identity of the status page every response is scoped to.
+      description: Component status transition recorded on an incident update.
+      properties:
+        code:
+          type: string
+          description: The component id.
+        name:
+          type: string
+          description: Group-qualified component name.
+          examples:
+          - CMX-Automate - CMX Automate
+        old_status:
+          type: string
+        new_status:
+          type: string
+      required:
+      - code
+      - name
+    Component:
+      type: object
+      description: 'One component (or component group) on the CodaMetrix page. Groups carry `group: true` and a `components` array of child ids.'
       properties:
         id:
           type: string
-          description: Statuspage page identifier for CodaMetrix.
           examples:
-          - 93g3jjmkfprd
+          - pg7c1ssg6zpr
         name:
           type: string
           examples:
-          - CodaMetrix
-        url:
+          - CMX Automate
+        status:
           type: string
-          format: uri
-          examples:
-          - https://status.codametrix.com
-        time_zone:
+          enum:
+          - operational
+          - degraded_performance
+          - partial_outage
+          - major_outage
+          - under_maintenance
+        created_at:
           type: string
-          description: IANA time zone the page displays times in.
-          examples:
-          - America/New_York
+          format: date-time
         updated_at:
           type: string
           format: date-time
+        position:
+          type: integer
+        description:
+          type:
+          - string
+          - 'null'
+        showcase:
+          type: boolean
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        group_id:
+          type:
+          - string
+          - 'null'
+          description: Id of the parent component group, when this component belongs to one.
+        page_id:
+          type: string
+        group:
+          type: boolean
+          description: True when this record is a component group header rather than a component.
+        only_show_if_degraded:
+          type: boolean
+        components:
+          type: array
+          description: Child component ids. Present only on group records.
+          items:
+            type: string
       required:
       - id
       - name
-      - url
-      - updated_at
+      - status
+      - page_id
     ScheduledMaintenance:
       type: object
       description: A planned maintenance window and its update timeline.
@@ -175,86 +224,6 @@ components:
       - impact
       - page_id
       - incident_updates
-    Component:
-      type: object
-      description: 'One component (or component group) on the CodaMetrix page. Groups carry `group: true` and a `components` array of child ids.'
-      properties:
-        id:
-          type: string
-          examples:
-          - pg7c1ssg6zpr
-        name:
-          type: string
-          examples:
-          - CMX Automate
-        status:
-          type: string
-          enum:
-          - operational
-          - degraded_performance
-          - partial_outage
-          - major_outage
-          - under_maintenance
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        position:
-          type: integer
-        description:
-          type:
-          - string
-          - 'null'
-        showcase:
-          type: boolean
-        start_date:
-          type:
-          - string
-          - 'null'
-          format: date
-        group_id:
-          type:
-          - string
-          - 'null'
-          description: Id of the parent component group, when this component belongs to one.
-        page_id:
-          type: string
-        group:
-          type: boolean
-          description: True when this record is a component group header rather than a component.
-        only_show_if_degraded:
-          type: boolean
-        components:
-          type: array
-          description: Child component ids. Present only on group records.
-          items:
-            type: string
-      required:
-      - id
-      - name
-      - status
-      - page_id
-    AffectedComponent:
-      type: object
-      description: Component status transition recorded on an incident update.
-      properties:
-        code:
-          type: string
-          description: The component id.
-        name:
-          type: string
-          description: Group-qualified component name.
-          examples:
-          - CMX-Automate - CMX Automate
-        old_status:
-          type: string
-        new_status:
-          type: string
-      required:
-      - code
-      - name
     ScheduledMaintenancesResponse:
       type: object
       properties:
@@ -267,6 +236,37 @@ components:
       required:
       - page
       - scheduled_maintenances
+    Page:
+      type: object
+      description: Identity of the status page every response is scoped to.
+      properties:
+        id:
+          type: string
+          description: Statuspage page identifier for CodaMetrix.
+          examples:
+          - 93g3jjmkfprd
+        name:
+          type: string
+          examples:
+          - CodaMetrix
+        url:
+          type: string
+          format: uri
+          examples:
+          - https://status.codametrix.com
+        time_zone:
+          type: string
+          description: IANA time zone the page displays times in.
+          examples:
+          - America/New_York
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - url
+      - updated_at
     IncidentUpdate:
       type: object
       description: One dated post in an incident or maintenance timeline.

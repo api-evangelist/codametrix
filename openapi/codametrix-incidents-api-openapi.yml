@@ -60,37 +60,25 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Page:
+    AffectedComponent:
       type: object
-      description: Identity of the status page every response is scoped to.
+      description: Component status transition recorded on an incident update.
       properties:
-        id:
+        code:
           type: string
-          description: Statuspage page identifier for CodaMetrix.
-          examples:
-          - 93g3jjmkfprd
+          description: The component id.
         name:
           type: string
+          description: Group-qualified component name.
           examples:
-          - CodaMetrix
-        url:
+          - CMX-Automate - CMX Automate
+        old_status:
           type: string
-          format: uri
-          examples:
-          - https://status.codametrix.com
-        time_zone:
+        new_status:
           type: string
-          description: IANA time zone the page displays times in.
-          examples:
-          - America/New_York
-        updated_at:
-          type: string
-          format: date-time
       required:
-      - id
+      - code
       - name
-      - url
-      - updated_at
     Component:
       type: object
       description: 'One component (or component group) on the CodaMetrix page. Groups carry `group: true` and a `components` array of child ids.'
@@ -231,25 +219,37 @@ components:
       required:
       - page
       - incidents
-    AffectedComponent:
+    Page:
       type: object
-      description: Component status transition recorded on an incident update.
+      description: Identity of the status page every response is scoped to.
       properties:
-        code:
+        id:
           type: string
-          description: The component id.
+          description: Statuspage page identifier for CodaMetrix.
+          examples:
+          - 93g3jjmkfprd
         name:
           type: string
-          description: Group-qualified component name.
           examples:
-          - CMX-Automate - CMX Automate
-        old_status:
+          - CodaMetrix
+        url:
           type: string
-        new_status:
+          format: uri
+          examples:
+          - https://status.codametrix.com
+        time_zone:
           type: string
+          description: IANA time zone the page displays times in.
+          examples:
+          - America/New_York
+        updated_at:
+          type: string
+          format: date-time
       required:
-      - code
+      - id
       - name
+      - url
+      - updated_at
     IncidentUpdate:
       type: object
       description: One dated post in an incident or maintenance timeline.
