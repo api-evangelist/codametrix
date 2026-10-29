@@ -64,5 +64,136 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-CodaMetrix is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/codametrix_stock/
+CodaMetrix is a Boston-based healthcare AI company that builds CMX CARE, an autonomous medical coding platform that translates clinical documentation into billing and diagnostic codes without human touch. Spun out of Mass General Brigham's physician billing organization in 2019, the platform combines machine learning, deep learning and natural language processing to produce a patient-centric, longitudinal view of the record and code across radiology, pathology, evaluation and management, endoscopy, emergency medicine and surgery. It is delivered as an AWS-hosted SaaS that integrates directly into the EHR (Epic Toolbox member, plus Cerner, Meditech and GE) rather than as a public developer API; the only publicly callable surface CodaMetrix operates is the unauthenticated Atlassian Statuspage Page API on status.codametrix.com. The company has raised $95M across Series A and Series B and was ranked No. 1 in the inaugural Best in KLAS category for autonomous medical coding.
+
+**Areas:** Company · Healthcare · Health Systems · Medical Coding · Autonomous Coding · Revenue Cycle Management · Clinical Documentation · Healthcare AI · Machine Learning · Natural Language Processing · EHR Integration · Status
+
+## CodaMetrix on APIs.io
+
+Everything profiled for CodaMetrix is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/codametrix/](https://apis.io/providers/codametrix/)** — or go straight to one of the APIs or properties below.
+
+### APIs (5)
+
+- [CodaMetrix Components API](https://apis.io/apis/codametrix/codametrix-components-api/) — The component tree for the CodaMetrix platform.
+- [CodaMetrix Incidents API](https://apis.io/apis/codametrix/codametrix-incidents-api/) — Unplanned incidents and their update timelines.
+- [CodaMetrix Scheduled Maintenances API](https://apis.io/apis/codametrix/codametrix-scheduled-maintenances-api/) — Planned maintenance windows and their update timelines.
+- [CodaMetrix Status API](https://apis.io/apis/codametrix/codametrix-status-api/) — Overall page status rollup.
+- [CodaMetrix Summary API](https://apis.io/apis/codametrix/codametrix-summary-api/) — Combined rollup of status, components, unresolved incidents and active/upcoming maintenances.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [codametrix-mcp.yml](https://apis.io/servers/codametrix/codametrix-mcp-yml/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Codametrix Agentic Access](https://apis.io/agentic-access/codametrix/codametrix-agentic-access/)
+
+#### Examples (8)
+
+Example requests and responses.
+
+- [Codametrix Status Components](https://apis.io/examples/codametrix/codametrix-status-components/)
+- [Codametrix Status Incidents](https://apis.io/examples/codametrix/codametrix-status-incidents/)
+- [Codametrix Status Incidents Unresolved](https://apis.io/examples/codametrix/codametrix-status-incidents-unresolved/)
+- [Codametrix Status Scheduled Maintenances](https://apis.io/examples/codametrix/codametrix-status-scheduled-maintenances/)
+- [Codametrix Status Scheduled Maintenances Active](https://apis.io/examples/codametrix/codametrix-status-scheduled-maintenances-active/)
+- [Codametrix Status Scheduled Maintenances Upcoming](https://apis.io/examples/codametrix/codametrix-status-scheduled-maintenances-upcoming/)
+- [Codametrix Status Status](https://apis.io/examples/codametrix/codametrix-status-status/)
+- [Codametrix Status Summary](https://apis.io/examples/codametrix/codametrix-status-summary/)
+
+#### Collections (5)
+
+Postman and Open Collection request collections.
+
+- [CodaMetrix Status Components API](https://apis.io/collections/codametrix/open-codametrix-components-api/)
+- [CodaMetrix Status Incidents API](https://apis.io/collections/codametrix/open-codametrix-incidents-api/)
+- [CodaMetrix Status Scheduled Maintenances API](https://apis.io/collections/codametrix/open-codametrix-scheduled-maintenances-api/)
+- [CodaMetrix Status API](https://apis.io/collections/codametrix/open-codametrix-status-api/)
+- [CodaMetrix Status Summary API](https://apis.io/collections/codametrix/open-codametrix-summary-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Codametrix Status Overlay](https://apis.io/overlays/codametrix/codametrix-status-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Codametrix Authentication](https://apis.io/security/codametrix/codametrix-authentication/)
+- [Codametrix Domain Security](https://apis.io/security/codametrix/codametrix-domain-security/)
+- [Codametrix Trust Center](https://apis.io/security/codametrix/codametrix-trust-center/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.codametrix.com/)
+- [Documentation](https://status.codametrix.com/api/)
+- [Blog](https://www.codametrix.com/resources)
+- [Compliance](https://trust.codametrix.com)
+- [Trust centre](https://trust.codametrix.com)
+- [Privacy policy](https://cdn.prod.website-files.com/684cc6638b0f0abf60033894/69efd0a7e96fba6f9ddd6d69_CodaMetrix_Privacy%20Policy-04-27-26.pdf)
+- [Status](https://status.codametrix.com)
+
+## API Evangelist rating
+
+**Kin Score 37.8** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 16.5 |
+| Contract governance | 18.2 |
+| Operational transparency | 15.8 |
+| Developer ergonomics | 37.5 |
+| Access clarity | 71.4 |
+
+**Agent readiness 27.7** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | na |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | na |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 19.1** — Health
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/codametrix/](https://apis.io/providers/codametrix/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for CodaMetrix: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/codametrix/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
